@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <meta charset="utf-8">
+        <title>ScoutScript - Login</title>
+        <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "styles/login.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id = "content">
+            <div class = "rightC">
+                <header>
+                    <h1>Witamy w ScoutScript</h1>
+                </header>
+
+                <div id = "center">
+                    <p id = "error"></p>
+                    <form name = "loginForm" action = "/main" method = "post">
+                        <input class = "erro" type = "text" name = "login" placeholder = "LOGIN">
+                        <br>
+                        <input class = "erro" type = "password" name = "haslo" placeholder = "HASŁO">
+                        <br><br>
+                        
+                        <div id = "sub">
+                            <p>ZALOGUJ SIĘ</p>
+                            <img src="images/login.png">
+                        </div>
+                    </form> 
+                </div>
+
+                <footer>
+                    <p><a href ="#">Nie masz konta? Zarejestruj się</a></p>
+                </footer>
+            </div>
+            <div class = "leftC">
+                
+            </div>
+        </div>
+    </body>
+    <script src = "scripts/login.js"></script>
+</htmL>

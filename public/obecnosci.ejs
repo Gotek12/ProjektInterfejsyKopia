@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Sprawdź obecność</title>
+        <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "styles/main.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+       <%- include('templates/nav')%>
+
+        <div id = "mainCenter">
+
+           <%- include('templates/header',{'name': "Sprawdź obecność"})%>
+
+            <!-- Główne zmiany -->
+            <div id = "mainContent">
+                <div id="obecnoscBox">
+                    <div style="width: 45%;">
+                        <div>
+                            <label for="data_obec">Data:</label>
+                            <input type="date" name="data_obecnosci" id="data_obec" required min="1998-03-10"
+                                   title="Wprowadź datę większą bądź równą od aktualnej w formacie dd-mm-yyyy">
+                        </div>
+
+                        <input type="button" name ="dodaj_d" value="Dodaj członka do drużyny" onclick="pop('myPopup')">
+                        <div class="popup_d">
+                            <span class="popup_dzieciaczki" id="myPopup">
+                                <div style="width: 45%; margin-right: 10%;">
+                                    <h3 class="headerName"><label for="imie_dziecka">Imie</label></h3>
+                                    <input type="text" name="imie_dziecka" id="imie_n_d" value="" required title="Podaj imię nowego dziecka">
+                                </div>
+                                <div style="width: 45%;">
+                                    <h3 class="headerName"><label for="nazwisko_d">Nazwisko</label></h3>
+                                    <input type="text" name="nazwisko_d" id="nazwisko_n_d" value="" required title="Podaj nazwisko nowego dziecka">
+                                </div>
+
+                                <input type="button" name="anuluj_dodawanie" id="cancel_adding" value="Anuluj" onclick="pop('myPopup'); clear_ns();">
+                                <input type="button" name="dodaj_dzieciaczka_do_listy" id="child_adder" value="Dodaj" onclick="add_new();">
+                            </span>
+                        </div>
+
+                        <input type="button" name ="dodaj_d" value="Wypisz z drużyny" onclick="pop('myPopup_d')">
+                        <div class="popup_del">
+                            <span class="popup_dzieciaczki_del" id="myPopup_d">
+                                <div style="width: 45%; margin-right: 10%;">
+                                    <h3 class="headerName"><label for="imie_dziecka_del">Imie</label></h3>
+                                    <input type="text" name="imie_dziecka_del" id="imie_n_d_del" value="" required title="Podaj imię członka, którego chcesz usunąć">
+                                </div>
+                                <div style="width: 45%;">
+                                    <h3 class="headerName"><label for="nazwisko_d_del">Nazwisko</label></h3>
+                                    <input type="text" name="nazwisko_d_del" id="nazwisko_n_d_del" value="" required title="Podaj nazwisko członka, którego chcesz usunąć">
+                                </div>
+
+                                <input type="button" name="anuluj_usuwanie" id="cancel_adding" value="Anuluj" onclick="pop('myPopup_d'); clear_ns();">
+                                <input type="button" name="usun_z_listy" id="child_deleter" value="Usuń" onclick="delete_child();">
+                            </span>
+                        </div>
+                    </div>
+<!--                    <%/*if(deletion_){%>-->
+<!--                    <script type="text/javascript">-->
+<!--                        let child_ = document.querySelector('[name="imie_dziecka_del"]').value + " " + document.querySelector('[name="nazwisko_d_del"]').value;-->
+<!--                        window.alert("Wypisano " + child_ + "z listy członków.");-->
+<!--                    </script>-->
+<!--                    <%} else {%>-->
+<!--                        <script type="text/javascript">-->
+<!--                            let child_ = document.querySelector('[name="imie_dziecka_del"]').value + " " + document.querySelector('[name="nazwisko_d_del"]').value;-->
+<!--                            window.alert("Brak członka: " + child_);-->
+<!--                        </script>-->
+<!--                    <%}*/%>-->
+
+                    <div id="lista_dzieciaczkow">
+                        <%for(let i = 0; i < members.length; i++){%>
+                            <div id="os_<%= i%>" class="do_spr" data-present = "false">
+                                <%= members[i]%>
+                                <label class="check">
+                                    <input type="checkbox" class = "ch" id="check_or_not_check_<%= i%>" onclick="changer('os_<%= i%>', 'check_or_not_check_<%= i%>')"/>
+                                    <div class="box"></div>
+                                </label>
+                            </div>
+                        <%}%>
+                    </div>
+
+                    <script type="text/javascript">
+                        let today = new Date();
+                        let dd = today.getDate();
+                        let mm = today.getMonth() + 1; //January is 0!
+                        let yyyy = today.getFullYear();
+
+                        if (dd < 10) {
+                            dd = '0' + dd
+                        }
+                        if (mm < 10) {
+                            mm = '0' + mm
+                        }
+
+                        today = yyyy + '-' + mm + '-' + dd;
+
+                        let state = document.getElementById("data_obec");
+                        state.setAttribute("value", today);
+                    </script>
+
+                </div>
+                <div id="buttonSpan">
+                    <input type="button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <input type="button" name ="zatwierdz" id = "okZatwierdz" value="Zatwierdź">
+                </div>
+
+                <!-- czytanie kto do zaspiu obecności do jsona -->
+                <script>
+                    let whoIsPresent = [];
+
+                    window.onclick = function(e) {
+                        let el = e.target;
+                        let person;
+                        if(el.className === "ch" && el.parentElement.parentElement.dataset.present === "false"){
+                            el.parentElement.parentElement.dataset.present = "true";
+                            person = el.parentElement.parentElement.textContent.trim();
+                            whoIsPresent.push(person);
+                            console.log(whoIsPresent);
+                            
+                        }else if(el.className === "ch" && el.parentElement.parentElement.dataset.present === "true"){
+                            el.parentElement.parentElement.dataset.present = "false";
+                            person = el.parentElement.parentElement.textContent.trim();
+                            whoIsPresent = whoIsPresent.filter(function(ev) { return ev !== person });
+                            console.log(whoIsPresent);
+                        }
+                    }
+
+                    document.getElementById("okZatwierdz").addEventListener("click", ()=> {
+                        let acData = document.getElementById("data_obec").value;
+                        
+                        $.post("./sprObecnosc/save", { 'whoIsPresent': whoIsPresent, "acData" : acData});   
+                        window.location.href = '/main';
+                    });
+                    
+                </script>
+            </div><!--MAINCONTENT END-->
+        </div>
+
+        <%- include('templates/footer')%>
+
+
+        <script src="scripts/buttonsFunctions.js"></script>
+
+    </body>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/dodaj_dzieci.js"></script>
+</html>

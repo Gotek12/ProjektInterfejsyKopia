@@ -1,0 +1,109 @@
+:root {
+    --Primary: #01796F;
+    --Secondary: #00897B;
+    --Thirdly: #33a195;
+    --FontColor: #fff;
+    --BackgroundDark: #071A3F;
+    --BackgroundDark2: #071A4F;
+    --BackgroundLight: #E2E6D7;
+}
+
+html, body, #content{
+    height: 100%;
+}
+
+body{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: var(--BackgroundLight);
+    display: grid;
+    color: var(--FontColor);
+}
+
+#content{
+    justify-self: center;
+    align-self: center;
+    width: 85%;
+    height: 90%;  
+    display: grid;
+    grid-template-columns: minmax(300px, 600px) auto;
+    grid-template-areas: "leftEl rightEl";
+}
+
+.leftC{
+    border-radius: 31px 0 0 31px;
+    grid-area: leftEl;
+    background-image: url(../images/logBackground.jpg);
+    background-size: cover;
+}
+
+.rightC{
+    height: 100%;
+    grid-area: rightEl;
+    background-color: var(--BackgroundDark);
+    border-radius: 0 31px 31px 0;
+    display: grid;
+    justify-items: center;
+    grid-template-rows: 2fr auto 1fr;
+}
+
+header{
+    /* grid-area: h; */
+    align-self: center;
+}
+
+#center{
+    height: 100%;
+    /* grid-area: c; */
+    padding-left: 50px;
+    padding-bottom: 45px;
+}
+
+input[type=text], input[type=password]{
+    border-radius: 8px;
+    padding: 25px 20px;
+    width: 280px;
+}
+
+#center input[type=password]{
+    margin-top: 10px;
+}
+
+#center #sub{
+    display: flex;
+    align-items: center;
+    padding-left: 160px;
+}
+
+#center #sub img{
+    height: 34px;
+    width: 50px;
+}
+
+#center #sub p{
+    padding-right: 10px;
+}
+
+footer{
+    /* grid-area: f; */
+    align-self: center;
+    padding-left: 150px;
+    justify-self: start;
+}
+
+footer a{
+    text-decoration: none;
+    color: var(--FontColor);
+}
+
+#sub:hover{
+    background-color: var(--BackgroundDark2);
+    border-radius: 8px;
+}
+
+#error{
+    color: red;
+}
+
+.erro2 {
+    border: 2px solid red;
+}

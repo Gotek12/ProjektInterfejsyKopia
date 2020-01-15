@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <div style="width: 85%; margin: 0 7.5%;">
+            <div >            
+                <h5>Data: <%=el.konMain.czas%></h5>
+                <h5>Miejsce Zbiorki: <%=el.konMain.miejsceZbiorki%></h5>
+                <h5>Temat: <%=el.konMain.tematZbiorki%></h5>
+                <h5>Cel metodyczny: <%=el.konMain.celMetodyczny%></h5>
+                <h5>Cel Fabularny: <%=el.konMain.celFabularny%></h5>
+
+                <hr>
+                <% for ( let e of el.elementy ) { %>
+                    <div>
+                        <p>Nazwa elementu: <%=e.nazwa_elementu%></p>
+                        <p>Forma: <%=e.forma%></p>
+                        <p>Przewidywany czas: <%=e.przewidywany_czas%> <%=e.przewidywany_czas_text%></p>
+                        <p>Cel: <%=e.cel%></p>
+                        <p>Potrzebne elementy: <%=e.potrzebne_elementy%></p>
+                    </div>
+                    <hr>
+                <% } %>
+
+            </div>
+        </div>
+    </body>
+</html>

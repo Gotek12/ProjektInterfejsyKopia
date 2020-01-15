@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <style>
+
+        </style>
+    </head>
+    <body>
+        <div style="width: 85%; margin: 0 7.5%; font-size: 12px;">
+            <div >            
+                <h3>Data zbiórki: <%=el.czas%></h3>
+                <table style="width: 100%;">
+                    <tr>
+                        <th>Nazwa</th>
+                        <th>Konspekt</th>
+                        <th>Podsumowanie</th>
+                    </tr>
+                    <tr>
+                        <td>Miejsce</td>
+                        <td><%=el.konspektMiejsce%></td>
+                        <td><%=el.podsumowanieMiejsce%></td>
+                    </tr>
+                    <tr>
+                        <td>Temat</td>
+                        <td><%=el.konspektTemat%></td>
+                        <td><%=el.podsumowanieTemat%></td>
+                    </tr>
+                    <%console.log(el.celMetodycznyKonspekt)%>
+                    <%if (el.celMetodycznyKonspekt != "brak"){%>
+                    <tr>
+                        <td>Cel metodyczny</td>
+                        <td><%=el.celMetodycznyKonspekt%></td>
+                        <td><%=el.celMetodycznyPodsumowanie%></td>
+                    </tr>
+                    <%}%>
+                    <%if (el.celFabularnyKonspekt != "brak"){%>
+                    <tr>
+                        <td>Cel fabularny</td>
+                        <td><%=el.celFabularnyKonspekt%></td>
+                        <td><%=el.celFabularnyPodsumowanie%></td>
+                    </tr>
+                    <%}%>
+                </table>
+                
+                <table style = "border: solid black 1px; padding: 2px; width: 100%;">
+                    <tr>
+                        <td>Lp</td>
+                        <td>Nazwa elementu</td>
+                        <td>Przewidywana forma</td>
+                        <td>Forma</td>
+                        <td>Przewidywany czas</td>
+                        <td>Czas</td>
+                    </tr>
+                
+               
+                <%  let count = 1
+                    let tabCele = []
+                    let tabUwagi = []
+                    for ( let e of el.tablicaElementow) { %>
+                    <tr>
+                        <td><%=count%></td>
+                        <td><%=e.nazwa%></td>
+                        <td><%=e.formaKonspekt%></td>
+                        <td><%=e.formaPodsumowanie%></td>
+                        <td><%=e.czasKonspekt%> <%=e.czasTextKonspekt%></td>
+                        <td><%=e.czasPodsumowanie%> <%=e.czasTextPodsumownaie%></td>
+                        <%
+                            if(typeof(e.cel) != undefined && e.cel != null){
+                                let dodaj = {
+                                    pozycja: count,
+                                    cel: e.cel,
+                                    realizacja: e.realizacjaCelu
+                                }
+                                tabCele.push(dodaj)
+                            }
+                            if(typeof(e.uwagi) != undefined && e.uwagi != null){
+                                let uwaga = {
+                                    pozycja: count,
+                                    uwaga: e.uwagi
+                                }
+                                tabUwagi.push(uwaga)
+                            }
+                        %>
+                    </tr>
+                <%  count++; 
+                } %>
+                </table>
+               
+                <table style="width: 100%;">
+                <%
+                    if(tabCele.length > 0){%>
+                        <tr>
+                            <td>Element</td>
+                            <td>Cel</td>
+                            <td>Realizacja</td>
+                        </tr>
+                    <% console.log(tabCele)
+                    }%>
+
+                    <%for(let i = 0; i < tabCele.length; i++ ){%>
+                         <tr>
+                            <td><%=tabCele[i].pozycja%></td>
+                            <td><%=tabCele[i].cel%></td>
+                            <td><%=tabCele[i].realizacja%></td>
+                        </tr>
+                    <%}
+                %>
+                </table>
+                
+                <table style="width: 100%;">
+                <%
+                    if(tabUwagi.length > 0){%>
+                        <tr>
+                            <td>Element</td>
+                            <td>Uwaga</td>
+                        </tr>
+                    <% console.log(tabUwagi)
+                    }%>
+
+                    <%for(let i = 0; i < tabUwagi.length; i++ ){%>
+                         <tr>
+                            <td><%=tabUwagi[i].pozycja%></td>
+                            <td><%=tabUwagi[i].uwaga%></td>
+                        </tr>
+                    <%}
+                %>
+                </table>
+            </div>
+            <div>
+                <% if (el.wnioski  !== undefined) {
+                    if(el.wnioski.plusy !== undefined && el.wnioski.minusy !== undefined) {%>
+                    <div>
+                        <div style="width: 45%; border: solid black 1px; display: inline-block;">
+                            <h4>Plusy</h4>
+                            <p><%=el.wnioski.plusy%></p>
+                        </div>
+                        <div style="width: 45%; border: solid black 1px; display: inline-block;">
+                            <h4>Minusy</h4>
+                            <p><%=el.wnioski.minusy%></p>
+                        </div>
+                    </div>
+                    <%} else if (el.wnioski.plusy !== undefined ) {%>
+                        <div style="width: 100%;">
+                            <h4>Plusy</h4>
+                            <p><%=el.wnioski.plusy%></p>
+                        </div>
+                    <%} else if (el.wnioski.miusy !== undefined) {%>
+                        <div style="width: 100%;">
+                            <h4>Minusy</h4>
+                            <p><%=el.wnioski.minusy%></p>
+                        </div>
+                    <%}%>
+                    
+
+            </div>
+                <%if( el.wnioski.wnioski != undefined) {%>
+                    <div style="width: 100%;">
+                        <h4>Wnioski</h4>
+                        <p><%=el.wnioski.wnioski%></p>
+                    </div>
+                <%  }
+                }%>
+        </div>
+    </body>
+</html>
+

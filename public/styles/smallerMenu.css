@@ -1,0 +1,31 @@
+body{
+    grid-template-columns: 50px auto;
+}
+
+#mainContent{
+    width: 90%;
+    justify-self: center;
+}
+
+#leftNavigation{
+    grid-template-columns: 50px;
+    grid-template-areas: "right";
+}
+
+#rightPart #mobileIcons{
+    display: grid;
+    padding-top: 60px;
+}
+
+#rightPart{
+    display: grid;
+    justify-items: center;        
+}
+
+#mainCenter header{
+    width: 90%;
+}
+
+#leftNavigation ul > li.items{
+    display: none;
+}

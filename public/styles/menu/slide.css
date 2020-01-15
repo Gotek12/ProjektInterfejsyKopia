@@ -1,0 +1,29 @@
+ /* wysuwane menu */
+ #leftPart{
+    font-size: 14px;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    left: 40px;
+    overflow-x: hidden;
+    transition: 0.5s;
+    z-index: 1;
+    background-color: var(--Primary);
+}
+
+#mobileIcons{
+    z-index: -10;
+}
+
+#leftNavigation ul > li.items{
+    display: block;
+    padding-right: 10px;
+}
+
+#leftNavigation ul > li.items img{
+    display: none;
+}
+
+#leftNavigation #leftPart .logo img{
+    width: 170px;
+}

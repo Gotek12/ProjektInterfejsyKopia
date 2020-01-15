@@ -1,0 +1,27 @@
+a.elementyDodane{
+    text-decoration: none;
+    color: var(--FontColor);
+}
+
+a.elementyDodane p{
+    color: var(--BackgroundDark);
+}
+
+#addElement{
+    width: 95%;
+    display: flex;
+    align-items: center;
+    background-color: var(--BackgroundLight);
+    border-radius: 15px;
+    border: 1px dotted black;
+}
+
+#addElement img{
+    padding-left: 10px;
+    width: 20px;
+    height: 20px;
+}
+
+#addElement p{
+    padding-left: 16px;
+}

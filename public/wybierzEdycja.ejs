@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<htmL>
+<head>
+    <meta charset="utf-8">
+    <title>Dodaj konspekt</title>
+    <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+    <link rel = "stylesheet" href = "styles/main.css">
+    <link rel = "stylesheet" href = "styles/konspekt_elementy.css" >
+    <script src = "scripts/konspektValidation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <%- include('templates/nav')%>
+
+<div id = "mainCenter">
+
+    <%- include('templates/header',{'name': "Wybierz konspekt do edycji"})%>
+
+    <div id="mainContent">
+        <div id="elementsList">
+            <div id="list">
+<!--                <div class = "listElement" style="display: flex;" >-->
+<!--                    <span class="elementSpanName">Nazwa konspektu: Bla bla</span>-->
+<!--                    <span class="elementSpan ">Data: 11.11.2020</span>-->
+<!--                </div>-->
+
+                <%for(let el of data.tab){ %>
+                <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
+                    <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
+                    <span class="elementSpan">Data: <%=el.czas %></span>
+                    <img src = "images/generuj/2xw/baseline_file_copy_white_48dp.png" alt = "generuj" style="width: 20px;">
+                </div>
+               <%}%>
+            </div>
+        </div>
+    </div>
+    <!--MAINCONTENT END-->
+</div>
+
+    <%- include('templates/footer')%>
+
+</body>
+<script src="scripts/konspektLista.js"></script>
+</htmL>

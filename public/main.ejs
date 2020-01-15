@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <meta charset="utf-8">
+        <title>Strona główna</title>
+        <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "/styles/main.css">
+    </head>
+    <body>
+
+       <%- include('templates/nav')%>
+
+        <div id = "mainCenter">
+
+            <%- include('templates/header',{'name': "Strona główna"})%>
+
+            <!-- Główne zmiany -->
+            <div id = "mainContent">
+                <div id="mainLeftContent">
+                    <h2 id = "headerName">Potrzebne na zbiórki:</h2>
+                    <hr id="lineTekstHeader">
+
+                    <% for ( let el of data.tab ) { %>
+                    <a href = "#">
+                        <div id="tekstBox">
+                            <h3 id="headerName"><%= el.czas %></h3>
+                            <hr id="lineTekstBox">
+                            <!-- <span style="display:inline-block;text-overflow: ellipsis; overflow: hidden; white-space: nowrap; vertical-align: middle;"> -->
+                            <% if(el.elementsList.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")}).join(", ").length < 160){ %>
+                            <%= el.elementsList.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")}).join(", ") %>
+                            <% }else { %>
+                            <%= el.elementsList.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")}).join(", ").substr(0, 160) %> ...  
+                            <% } %>
+                            <!-- </span> -->
+                        </div>
+                    </a>
+                    <% } %>
+ 
+                </div>
+
+                <div id="mainButtonContent">
+                    <h2 id="headerName">Moja Drużyna:</h2>
+                    <hr id="lineTekstHeader">
+
+                    <div id="buttons">
+                        <!-- Menu z kafelkami
+                             redirect(url) - przekierowuje do strony o adresie "url"
+                         -->
+                        <div id="buttonBox" onclick="redirect('/konspektDodaj')" onmouseover="mouseOver('konspekt_', '/images/konspekt/2xw/baseline_add_circle_outline_white_48dp.png')" onmouseout="mouseOut('konspekt_', '/images/konspekt/2xb/baseline_add_circle_outline_black_48dp.png')">
+                            <h4 id="headerName">Dodaj konspekt</h4>
+                            <img id="konspekt_" src="/images/konspekt/2xb/baseline_add_circle_outline_black_48dp.png" alt="#">
+                        </div>
+
+                        <div id="buttonBox" onclick="redirect('/wybierzPodsumowanie')" onmouseover="mouseOver('podsumowanie_', '/images/podsumowanie/2xw/baseline_add_circle_white_48dp.png')" onmouseout="mouseOut('podsumowanie_', '/images/podsumowanie/2xb/baseline_add_circle_black_48dp.png')">
+                            <h4 id="headerName">Dodaj podsumowanie</h4>
+                            <img id="podsumowanie_" src="/images/podsumowanie/2xb/baseline_add_circle_black_48dp.png" alt="#">
+                        </div>
+
+                        <div id="buttonBox" onclick="redirect('/sprObecnosc')" onmouseover="mouseOver('obecnosc_', '/images/obecnosc/2xw/baseline_check_box_white_48dp.png')" onmouseout="mouseOut('obecnosc_', '/images/obecnosc/2xb/baseline_check_box_black_48dp.png')">
+                            <h4 id="headerName">Sprawdź obecność</h4>
+                            <img id="obecnosc_" src="/images/obecnosc/2xb/baseline_check_box_black_48dp.png" alt="#">
+                        </div>
+
+                        <div id="buttonBox" onclick="redirect('#')" onmouseover="mouseOver('oceny_', '/images/ocena/2xw/baseline_assignment_white_48dp.png')" onmouseout="mouseOut('oceny_', '/images/ocena/2xb/baseline_assignment_black_48dp.png')">
+                            <h4 id="headerName">Dodaj oceny indywidualne</h4>
+                            <img id="oceny_" src="/images/ocena/2xb/baseline_assignment_black_48dp.png" alt="#">
+                        </div>
+
+                        <div id="buttonBox" onclick="pop('myPopup')" onmouseover="mouseOver('pdf_', '/images/generuj/2xw/baseline_file_copy_white_48dp.png')" onmouseout="mouseOut('pdf_', '/images/generuj/2xb/baseline_file_copy_black_48dp.png')">
+                            <h4 id="headerName">Generuj PDF</h4>
+                            <img id="pdf_" src="/images/generuj/2xb/baseline_file_copy_black_48dp.png" alt="#">
+                            <div class="popup">
+                                <span class="popuptext" id="myPopup">Generuj plik z:
+                                    <div id="popup_box" onclick="redirect('/konspektListaDownload')">
+                                        <h4>Konspektu zbiórki</h4>
+                                    </div>
+                                    <div id="popup_box" onclick="redirect('/podsumowanieListaDownload')">
+                                        <h4>Podsumowania zbiórki</h4>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div id="buttonBox" onclick="redirect('#')" onmouseover="mouseOver('cele_', '/images/cel/2xw/baseline_flash_on_white_48dp.png')" onmouseout="mouseOut('cele_', '/images/cel/2xb/baseline_flash_on_black_48dp.png')">
+                            <h4 id="headerName">Dodaj cel całoroczny</h4>
+                            <img id="cele_" src="/images/cel/2xb/baseline_flash_on_black_48dp.png" alt="#">
+                        </div>
+                    </div>
+                </div>
+            </div><!--MAINCONTENT END-->
+        </div>
+
+       <%- include('templates/footer')%>
+
+        <script src="/scripts/buttonsFunctions.js"></script>
+
+        </body>
+    <script src="/scripts/main.js"></script>
+</htmL>

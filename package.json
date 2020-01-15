@@ -1,0 +1,29 @@
+{
+  "name": "basic",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": {
+    "name": "W. Ladyga",
+    "email": "wladyga@gmail.com"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.1",
+    "mongoose": "5.7.13",
+    "express-session": "1.17.0",
+    "ejs": "3.0.1",
+    "body-parser": "1.19.0",
+    "jsdom": "15.2.1",
+    "html-pdf": "2.2.0",
+    "serve-index": "1.9.1"
+  }
+}

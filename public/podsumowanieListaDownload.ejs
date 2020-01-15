@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<htmL>
+<head>
+    <meta charset="utf-8">
+    <title>Dodaj konspekt</title>
+    <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+    <link rel = "stylesheet" href = "styles/main.css">
+    <link rel = "stylesheet" href = "styles/konspekt_elementy.css" >
+    <script src = "scripts/konspektValidation.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <style>
+        .elementImg img {
+            width: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <%- include('templates/nav')%>
+
+<div id = "mainCenter">
+    <%- include('templates/header', {'name': "Wybierz podsumowanie do wygenerowania pliku PDF"})%>
+    <div id="mainContent">
+        <div id="elementsList">
+            <div id="list">
+
+                <%for(let el of data.tab){ %>
+                <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
+                    <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
+                    <span class="elementSpan">Data: <%=el.czas %></span>
+                    <span class = "elementImg">
+                        <!-- Podgląd pdf: <img alt = "podgląd pdf" class = "gen" id = "podglad" src = "images/lupka.png">
+                        Zapisz pdf: <img alt = "generowanie pdf" class = "gen" id = "zap" src = "images/generuj/2xw/baseline_file_copy_white_48dp.png"> -->
+                        <span class = "gen" id = "zap"><img alt = "generowanie pdf" src = "images/generuj/2xw/baseline_file_copy_white_48dp.png"> Zapisz do pdf </span>
+                        <span class = "gen" id = "podglad" ><img alt = "podgląd pdf" src = "images/lupka.png"> Podgląd pdf</span>
+                    </span>
+                    
+                </div>
+               <%}%>
+            </div>
+        </div>
+    </div>
+    <!--MAINCONTENT END-->
+</div>
+    <%- include('templates/footer')%>
+</body>
+<script src="scripts/podsumowanieLista.js"></script>
+</htmL>

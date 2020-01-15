@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj konspekt</title>
+        <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "styles/main.css">
+        <script src = "scripts/konspektValidation.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+    <%- include('templates/nav')%>
+
+        <div id = "mainCenter">
+            <%- include('templates/header', {'name': "Dodaj konspekt"})%>
+                
+            <!-- Główne zmiany -->
+            <div id = "mainContent">
+                <div id="konspekt_str1">
+                    <form id="kons_pierwszy" name="konspekt_pierwszy" action="/konspekt_elementy" style="display: inline" method="POST">
+                        <div id="shortest_box">
+                            <h2 class="headerName"><label for="data_z">Data zbiórki</label></h2>
+                            <input type="date" id="data_z" name="czas" required min="1998-03-10"
+                                   title="Wprowadź datę większą bądź równą od aktualnej w formacie dd-mm-yyyy">
+                        </div>
+
+                        <div>
+                            <h2 class="headerName"><label for="miejsce_z">Miejsce zbiórki</label></h2>
+                            <input type="text" id="miejsce_z" name="miejsceZbiorki" required title="Wprowadź miejsce zbiórki">
+                        </div>
+
+                        <h2 class="headerName" style="float: left;"><label for="temat_z">Temat zbiórki</label></h2>
+                        <input type="text" id="temat_z" name="tematZbiorki" required title="Wprowadź temat zbiórki">
+
+                        <h2 class="headerName"><label for="cel_m">Cel metodyczny</label></h2>
+                        <input type="text" id="cel_m" name="celMetodyczny" title="Wprowadź cel metodyczny">
+
+                        <h2 class="headerName"><label for="cel_f">Cel fabularny</label></h2>
+                        <input type="text" id="cel_f" name="celFabularny" title="Wprowadź cel fabularny">
+                        <input id = "sub" type="submit" name="dalej_konspekt" value="Dalej   >" onclick="check_fill()">
+                    </form>
+                </div>
+            </div><!--MAINCONTENT END-->
+        </div>
+
+       <%- include('templates/footer')%>
+
+    </body>
+    <script type="text/javascript">
+        // Kurwa w osobnym pliku nie działa
+        let today = new Date();
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!
+        let yyyy = today.getFullYear();
+
+        if (dd < 10) {
+            dd = '0' + dd
+        }
+        if (mm < 10) {
+            mm = '0' + mm
+        }
+
+        today = yyyy + '-' + mm + '-' + dd;
+
+        let state = document.getElementById("data_z");
+        let przycisk = document.getElementById("sub");
+        state.setAttribute("min", today);
+
+        function reverseString(info) {
+            rok = info.substring(0, 4);
+            miesiac = info.substring(5, 7);
+            dzien = info.substring(8, 10);
+            return dzien + "-" + miesiac + "-" + rok;
+        }
+
+        //sprawdzanie czy data istnieje, onclick nie działa
+        state.addEventListener('blur', () => {
+            let tabD = "<%= tabDates %>".split(",");
+            let readD = reverseString(state.value);
+
+            for(let i = 0; i < tabD.length; i++){
+                if(tabD[i] === readD){
+                    alert("Konspekt dla tej daty istnieje\nProszę wprowadzić inną date");
+                    przycisk.disabled = true;
+                    break;
+                }else{
+                    przycisk.disabled = false;
+                }
+            }
+        });
+
+    </script>
+    <script src="scripts/checker.js"></script>
+    <script src = "scripts/main.js">
+        getMinDate();
+    </script>
+</htmL>
