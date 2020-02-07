@@ -15,20 +15,24 @@
 
         <div id = "mainCenter">
 
-            <%- include('templates/header',{'name': "Wybierz konspekt do edycji"})%>
+            <%- include('templates/header',{'name': "Wybierz obecność"})%>
 
             <div id="mainContent">
                 <div id="elementsList">
                     <div id="list">
+
                         <%for(let el of data.tab){ %>
-                        <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
-                            <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
-                            <span class="elementSpan">Data: <%=el.czas %></span>
+                        <div class="listElement" style="display: flex; cursor: pointer;" id = "<%= el.id %>" onclick="dodajOcenyIndywidualne(this.id)">
+                            <span class="elementSpan">Obecność z dnia <%=el.data %></span>
                             <img src = "images/generuj/2xw/baseline_file_copy_white_48dp.png" alt = "generuj" style="width: 20px;">
                         </div>
                        <%}%>
                     </div>
                 </div>
+
+                <span id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                </span>
             </div>
             <!--MAINCONTENT END-->
         </div>
@@ -36,6 +40,6 @@
         <%- include('templates/footer')%>
 
     </body>
-    <script src="scripts/konspektLista.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="./scripts/main.js"></script>
+    <script src="./scripts/konspektLista.js"></script>
 </htmL>

@@ -61,7 +61,7 @@
                             <img id="obecnosc_" src="/images/obecnosc/2xb/baseline_check_box_black_48dp.png" alt="#">
                         </div>
 
-                        <div id="buttonBox" onclick="redirect('#')" onmouseover="mouseOver('oceny_', '/images/ocena/2xw/baseline_assignment_white_48dp.png')" onmouseout="mouseOut('oceny_', '/images/ocena/2xb/baseline_assignment_black_48dp.png')">
+                        <div id="buttonBox" onclick="redirect('/wybierzObecnosci')" onmouseover="mouseOver('oceny_', '/images/ocena/2xw/baseline_assignment_white_48dp.png')" onmouseout="mouseOut('oceny_', '/images/ocena/2xb/baseline_assignment_black_48dp.png')">
                             <h4 id="headerName">Dodaj oceny indywidualne</h4>
                             <img id="oceny_" src="/images/ocena/2xb/baseline_assignment_black_48dp.png" alt="#">
                         </div>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div id="buttonBox" onclick="redirect('#')" onmouseover="mouseOver('cele_', '/images/cel/2xw/baseline_flash_on_white_48dp.png')" onmouseout="mouseOut('cele_', '/images/cel/2xb/baseline_flash_on_black_48dp.png')">
+                        <div id="buttonBox" onclick="redirect('dodajCele')" onmouseover="mouseOver('cele_', '/images/cel/2xw/baseline_flash_on_white_48dp.png')" onmouseout="mouseOut('cele_', '/images/cel/2xb/baseline_flash_on_black_48dp.png')">
                             <h4 id="headerName">Dodaj cel całoroczny</h4>
                             <img id="cele_" src="/images/cel/2xb/baseline_flash_on_black_48dp.png" alt="#">
                         </div>
@@ -92,8 +92,9 @@
 
        <%- include('templates/footer')%>
 
-        <script src="/scripts/buttonsFunctions.js"></script>
+        <script src="scripts/buttonsFunctions.js"></script>
+        <script src="scripts/main_pdf_sender.js"></script>
 
         </body>
-    <script src="/scripts/main.js"></script>
+    <script src="scripts/main.js"></script>
 </htmL>

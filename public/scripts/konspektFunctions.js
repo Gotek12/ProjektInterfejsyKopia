@@ -16,8 +16,8 @@ let elementsBindings = [];
 
 
 function showAddElement(){
-    var button = document.querySelector('[name="dodaj_element_konspektu"]');
-    var add = document.getElementById('hidable');
+    let button = document.querySelector('[name="dodaj_element_konspektu"]');
+    let add = document.getElementById('hidable');
     if(!active){
         button.style.backgroundColor = 'var(--BackgroundDark)';
         button.style.color = 'var(--BackgroundLight)';
@@ -60,19 +60,19 @@ function checkIfNotEmptyEdit(edit){
         return false;
     }
     // check form
-    else if (edit.childNodes[1].childNodes[3].value === ''){
+    else if (edit.childNodes[1].lastChild.value === ''){
         return false;
     }
     // check time
-    else if (edit.childNodes[1].childNodes[7].value === '' || edit.childNodes[1].childNodes[7].value < 0){
+    else if (edit.childNodes[2].childNodes[3].value === '' || edit.childNodes[2].childNodes[3].value < 0){
         return false;
     }
     // check time description
-    else return edit.childNodes[1].childNodes[9].value !== '';
+    else return edit.childNodes[2].lastChild.value !== '';
 }
 
 function addElement(){
-    
+
     //dodawanie danych do obiektu
     if(checkIfNotEmpty()){
         obj.table.push({
@@ -85,9 +85,9 @@ function addElement(){
             potrzebne_elementy: document.querySelector('[name="potrzebne_do_elementu"]').value,
             test: "true"
         });
-        
-    
-        var element = [ 
+
+
+        let element = [
             document.querySelector('[name="nazwa_elementu"]').value,
             document.querySelector('[name="forma"]').value,
             document.querySelector('[name="przewidywany_czas"]').value,
@@ -95,22 +95,37 @@ function addElement(){
             document.querySelector('[name="cel_srodroczny"]').value,
             document.querySelector('[name="potrzebne_do_elementu"]').value,
         ];
-      
+
         elementsValues.push(element);
         // adding list item and hidden element to edit this item
-        var list = document.getElementById("list");
-        var element_title = document.createElement("span");
-        var element_form = document.createElement("span");
-        var element_time = document.createElement("span");
-        var has_goal = document.createElement("img");
-        var new_element = document.createElement("div");
-        var new_element_edit = document.createElement("div");
-        
-        element_title.innerHTML = "Tytuł: "+element[0];
+        let list = document.getElementById("list");
+        let element_title = document.createElement("span");
+        let element_form = document.createElement("span");
+        let element_time = document.createElement("span");
+        let has_goal = document.createElement("img");
+        let new_element = document.createElement("div");
+        let new_element_edit = document.createElement("div");
+
+        if(element[0].length > 40) {
+            element_title.innerHTML = "Tytuł: " + element[0].substr(0, 37) + "...";
+        }
+        else {
+            element_title.innerHTML = "Tytuł: " + element[0];
+        }
         element_title.className = "ElementSpanName";
-        element_form.innerHTML = "  Forma: "+element[1];
+        if(element[1].length > 40) {
+            element_form.innerHTML = "  Forma: " + element[1].substr(0, 37) + "...";
+        }
+        else {
+            element_form.innerHTML = "  Forma: " + element[1];
+        }
         element_form.className = "ElementSpan";
-        element_time.innerHTML = "  Czas: "+element[2]+" "+element[3];
+        if(element[2].length > 10) {
+            element_time.innerHTML = "  Czas: " + element[2].substr(0, 7) + "..." + " " + element[3];
+        }
+        else {
+            element_time.innerHTML = "  Czas: " + element[2] + " " + element[3];
+        }
         element_time.className = "ElementSpan";
         has_goal.src="../images/konspekt/has_goal.png";
         if(element[4] !== "")has_goal.style.display="inline";
@@ -121,20 +136,35 @@ function addElement(){
         new_element.appendChild(element_time);
         new_element.appendChild(has_goal);
         new_element.style.display = "flex";
+        new_element.style.cursor = "pointer";
         new_element_edit.className = "edit";
-        var new_element_edit_line1 = document.createElement("div");
-        var new_element_edit_line2 = document.createElement("div");
-        var new_element_edit_line3 = document.createElement("div");
-        var new_element_edit_line4 = document.createElement("div");
+        let new_element_edit_line1 = document.createElement("div");
+        let new_element_edit_line2 = document.createElement("div");
+        let new_element_edit_line3 = document.createElement("div");
+        let new_element_edit_line4 = document.createElement("div");
+        let new_element_edit_line5 = document.createElement("div");
+        let new_element_edit_line6 = document.createElement("div");
         new_element_edit_line1.className = "editLine";
         new_element_edit_line2.className = "editLine";
         new_element_edit_line3.className = "editLine";
+
+        // new_element_edit_line3.style.display = 'flex';
+        // new_element_edit_line3.style.flexFlow = 'row';
+        // new_element_edit_line3.style.verticalAlign = 'middle';
+        // new_element_edit_line3.style.marginTop = '0.5rem';
+        // new_element_edit_line3.style.marginBottom = '0.5rem';
+        // new_element_edit_line3.style.maxWidth = '100%';
+        // new_element_edit_line3.style.height = '2rem';
+
         new_element_edit_line4.className = "editLine";
+        new_element_edit_line5.className = "editLine";
+        new_element_edit_line6.className = "editLine";
+
         new_element_edit_line1.innerHTML = `
         <div class="addButtons" onclick="moveUp()">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z" fill="#071A3F"/><path d="M0 0h24v24H0z" fill="none"/></svg>
         </div>    
-            <p class="long">Nazwa elementu</p>
+            <label style="min-width: 5%; margin-right: 2.5%;">Nazwa elementu</label>
             <input type="text" name="edit_nazwa_elementu" minlength = "1" value = "${element[0]}">`;
         new_element_edit_line2.innerHTML = `
             <datalist id="edit_time_des">
@@ -145,19 +175,25 @@ function addElement(){
                 <option value="godzin">
                 <option value="godziny">
             </datalist>
-            <p class="short">Forma</p>
-            <input type="text" name="edit_forma" value = "${element[1]}">
-            <p class="short">Przewidywany czas</p>
-            <input type="number" name="edit_przewidywany_czas" min="0" value = "${element[2]}">
-            <input list="edit_time_des" name="edit_przewidywany_czas_text" value = "${element[3]}">
-            <p class="short">Cel śródroczny</p>
-            <input type="text" name="edit_cel_srodroczny" value = "${element[4]}">`;
+            <label style="min-width: 8%">Forma</label>
+            <textarea name="edit_forma" rows="3">${element[1]}</textarea>`;
+
         new_element_edit_line3.innerHTML = `
-            <p class="long">Potrzebne do elementu</p>
-            <textarea name="edit_potrzebne_do_elementu" rows="3" >${element[5]}</textarea>`;
-        new_element_edit_line4.style.alignContent = "baseline";
+            <label style="min-width: 8%;">Przewidywany czas</label>
+            <input type="number" name="edit_przewidywany_czas" class="dzialaj_czasie" min="1" pattern="[1-9]{1}[0-9]*" value = "${element[2]}">
+            <input list="edit_time_des" name="edit_przewidywany_czas_text" value = "${element[3]}">`;
 
         new_element_edit_line4.innerHTML = `
+        <label style="min-width: 8.25%;">Cel śródroczny</label>
+        <input type="text" name="edit_cel_srodroczny" value = "${element[4]}">`;
+
+        new_element_edit_line5.innerHTML = `
+            <label>Potrzebne do elementu</label>
+            <textarea name="edit_potrzebne_do_elementu" rows="3" >${element[5]}</textarea>`;
+        new_element_edit_line5.style.alignContent = "baseline";
+
+        new_element_edit_line6.style.justifyContent = "space-between";
+        new_element_edit_line6.innerHTML = `
         <div class="addButtons" onclick="moveDown()">
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="#071A3F"/><path d="M0 0h24v24H0z" fill="none"/></svg>        
         </div>
@@ -178,8 +214,8 @@ function addElement(){
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" fill='#071A3F'/><path d="M0 0h24v24H0z" fill="none"/></svg>
         </div>`;
         // adding id's to bind them together
-        var elementId = element[0];
-        var editId = "edit "+element[0];
+        let elementId = element[0];
+        let editId = "edit "+element[0];
 
         new_element.id = elementId;
         new_element_edit.id = editId;
@@ -188,17 +224,19 @@ function addElement(){
         new_element_edit.appendChild(new_element_edit_line2);
         new_element_edit.appendChild(new_element_edit_line3);
         new_element_edit.appendChild(new_element_edit_line4);
+        new_element_edit.appendChild(new_element_edit_line5);
+        new_element_edit.appendChild(new_element_edit_line6);
         new_element_edit.style.display = "none";
 
         // binding elements
-        var binding = {
+        let binding = {
             id: id,
             editId: editId,
             elementId: elementId
         };
-        
+
         elementsBindings.push(binding);
-        
+
         id++;
 
         // console.info(new_element_edit)
@@ -217,7 +255,7 @@ let saveKon = document.getElementById("letsGo");
 saveKon.addEventListener("click", () => {
 
     if(obj.table.length !== 0){
-        
+
         let counter = 0;
         obj.table.forEach((e) => {
             if(e.potrzebne_elementy.length === 0){
@@ -232,7 +270,7 @@ saveKon.addEventListener("click", () => {
         }
 
         //console.dir(obj.table);
-        $.post("./zapisz_konspekt", { 'tobj': obj.table});  
+        $.post("./zapisz_konspekt", { 'tobj': obj.table});
         window.location.href = '/main';
     }else{
         alert("Błąd wprowadzanie danych:\nbrakuje informacji o elemencie");
@@ -249,7 +287,7 @@ function editElement(){
 
         let edit = document.getElementById(lastClickedTag);
         if(checkIfNotEmptyEdit(edit)){
-        //determin which element of the list is to edit
+            //determin which element of the list is to edit
             let elementId, valuesId;
             for(let i = 0; i < elementsBindings.length; i++){
                 if(elementsBindings[i].editId === lastClickedTag){
@@ -262,17 +300,37 @@ function editElement(){
             // let edit = document.getElementById(lastClickedTag);
             //Read updated values - DO NOT TOUCH MAGIC NUMBERS!
             let edited_name = edit.childNodes[0].lastChild.value;
-            let edited_form = edit.childNodes[1].childNodes[5].value;
-            let edited_time = edit.childNodes[1].childNodes[9].value;
-            let edited_time_description = edit.childNodes[1].childNodes[11].value;
-            let edited_goal = edit.childNodes[1].lastChild.value;
-            let edited_to_preapre = edit.childNodes[2].lastChild.value;
+            let edited_form = edit.childNodes[1].lastChild.value;
+            let edited_time = edit.childNodes[2].childNodes[3].value;
+            let edited_time_description = edit.childNodes[2].lastChild.value;
+            let edited_goal = edit.childNodes[3].lastChild.value;
+            let edited_to_preapre = edit.childNodes[4].lastChild.value;
+
+            //console.error(edited_name + " " + edited_form + " " + edited_time + edited_time_description + " " + edited_goal + " " + edited_to_preapre);
+
             //Update elements at display and in elementsValues and obj.table
-            element.childNodes[0].innerHTML = "Tytuł: "+edited_name;
-            element.childNodes[1].innerHTML = "Forma: "+edited_form;
-            element.childNodes[2].innerHTML = "Czas: "+edited_time+" "+edited_time_description;
+            if(edited_name.length > 40) {
+                element.childNodes[0].innerHTML = "Tytuł: " + edited_name.substr(0, 27) + "...";
+            }
+            else {
+                element.childNodes[0].innerHTML = "Tytuł: " + edited_name;
+            }
+            if(edited_form.length > 40){
+                element.childNodes[1].innerHTML = "Forma: " + edited_form.substr(0, 37) + "...";
+            }
+            else {
+                element.childNodes[1].innerHTML = "Forma: " + edited_form;
+            }
+            if(edited_time.length > 10){
+                element.childNodes[2].innerHTML = "Czas: " + edited_time.substr(0, 7) + "... " + edited_time_description;
+            }
+            else {
+                element.childNodes[2].innerHTML = "Czas: " + edited_time + " " + edited_time_description;
+            }
+
             if(edited_goal !== "") element.lastChild.style.display = 'inline';
             else element.lastChild.style.display = 'none';
+
             //editing tags in bindings and DOM elements
             element.id = edited_name;
             edit.id = "edit "+edited_name;
@@ -323,8 +381,8 @@ function deleteElement(){
 }
 
 function moveUp(){
-    var originEdit = document.getElementById(lastClickedTag);
-    
+    let originEdit = document.getElementById(lastClickedTag);
+
     let elementId, originValuesId;
     for(let i = 0; i < elementsBindings.length; i++){
         if(elementsBindings[i].editId === lastClickedTag){
@@ -335,10 +393,10 @@ function moveUp(){
     let originElement = document.getElementById(elementId);
     if(originElement.previousSibling!=null){
         // console.info(originEdit, originEdit.previousSibling);
-        var swapEdit = originElement.previousSibling;
-        var swapElement = swapEdit.previousSibling;
-        var swapValuesId = originValuesId-1;
-        var parent = originEdit.parentNode;
+        let swapEdit = originElement.previousSibling;
+        let swapElement = swapEdit.previousSibling;
+        let swapValuesId = originValuesId-1;
+        let parent = originEdit.parentNode;
         // console.info(obj);
         // swap bindings and values
         let help = elementsBindings[originValuesId];
@@ -365,7 +423,7 @@ function moveUp(){
 }
 
 function moveDown(){
-    var originEdit = document.getElementById(lastClickedTag);
+    let originEdit = document.getElementById(lastClickedTag);
     if(originEdit.nextSibling!=null){
         let elementId, originValuesId;
         for(let i = 0; i < elementsBindings.length; i++){
@@ -376,10 +434,10 @@ function moveDown(){
         }
         let originElement = document.getElementById(elementId);
         // console.info(originEdit, originEdit.nextSibling);
-        var swapElement = originEdit.nextSibling;
-        var swapEdit = swapElement.nextSibling;
-        var swapValuesId = originValuesId+1;
-        var parent = originEdit.parentNode;
+        let swapElement = originEdit.nextSibling;
+        let swapEdit = swapElement.nextSibling;
+        let swapValuesId = originValuesId+1;
+        let parent = originEdit.parentNode;
         // console.info(obj);
         // swap bindings and values
         let help = elementsBindings[originValuesId];
@@ -404,12 +462,12 @@ function moveDown(){
         parent.insertBefore(swapElement, swapEdit);
 
     }
-    
+
 }
 
 function moveUp(){
-    var originEdit = document.getElementById(lastClickedTag);
-    
+    let originEdit = document.getElementById(lastClickedTag);
+
     let elementId, originValuesId;
     for(let i = 0; i < elementsBindings.length; i++){
         if(elementsBindings[i].editId === lastClickedTag){
@@ -420,11 +478,11 @@ function moveUp(){
     let originElement = document.getElementById(elementId);
     if(originElement.previousSibling!=null){
         // console.info(originEdit, originEdit.previousSibling);
-        var swapEdit = originElement.previousSibling;
-        var swapElement = swapEdit.previousSibling;
-        
-        var swapValuesId = originValuesId-1;
-        var parent = originEdit.parentNode;
+        let swapEdit = originElement.previousSibling;
+        let swapElement = swapEdit.previousSibling;
+
+        let swapValuesId = originValuesId-1;
+        let parent = originEdit.parentNode;
         // console.info(obj);
         // swap bindings and values
         let help = elementsBindings[originValuesId];
@@ -451,7 +509,7 @@ function moveUp(){
 }
 
 function moveDown(){
-    var originEdit = document.getElementById(lastClickedTag);
+    let originEdit = document.getElementById(lastClickedTag);
     if(originEdit.nextSibling!=null){
         let elementId, originValuesId;
         for(let i = 0; i < elementsBindings.length; i++){
@@ -462,10 +520,10 @@ function moveDown(){
         }
         let originElement = document.getElementById(elementId);
         // console.info(originEdit, originEdit.nextSibling);
-        var swapElement = originEdit.nextSibling;
-        var swapEdit = swapElement.nextSibling;
-        var swapValuesId = originValuesId+1;
-        var parent = originEdit.parentNode;
+        let swapElement = originEdit.nextSibling;
+        let swapEdit = swapElement.nextSibling;
+        let swapValuesId = originValuesId+1;
+        let parent = originEdit.parentNode;
         // console.info(obj);
         // swap bindings and values
         let help = elementsBindings[originValuesId];
@@ -489,7 +547,7 @@ function moveDown(){
         parent.insertBefore(swapEdit, originElement);
         parent.insertBefore(swapElement, swapEdit);
     }
-    
+
 }
 
 function hide(el, editId){
@@ -515,7 +573,7 @@ window.onclick = function(e) {
         el = el.parentElement;
     }
     if(el.className === "listElement"){
-        var editId;
+        let editId;
         for(let i = 0; i < elementsBindings.length; i++){
             console.info(elementsBindings[i]);
             if(el.id === elementsBindings[i].elementId) editId = elementsBindings[i].editId
@@ -528,6 +586,6 @@ window.onclick = function(e) {
             hide(el,editId)
         }
 
-        
+
     }
 };

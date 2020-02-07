@@ -1,93 +1,93 @@
 <!DOCTYPE html>
 <htmL>
-<head>
-    <meta charset="utf-8">
-    <title>Dodaj podsumowanie</title>
-    <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
-    <link rel = "stylesheet" href = "/styles/main.css">
-    <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
-    <script src = "/scripts/konspektValidation.js"></script>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj podsumowanie</title>
+        <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "/styles/main.css">
+        <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
+        <script src = "/scripts/konspektValidation.js"></script>
 
-<%- include('templates/nav')%>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
 
-<div id = "mainCenter">
+        <%- include('templates/nav')%>
 
-    <%- include('templates/header',{'name' : "Dodaj podsumowanie"})%>
+        <div id = "mainCenter">
 
-    <div id="mainContent">
-        <div id="podsumowanie_str1">
-            <div id="list">
-                <div>
-                    <h2 class="headerName"><label for="miejsce_z">Miejsce zbiórki</label></h2>
-                    <input type="text" id="miejsce_pod" name="miejsceZbiorki" required title="Wprowadź miejsce zbiórki" value= <%=data.konMain.miejsceZbiorki%>>
+            <%- include('templates/header',{'name' : "Dodaj podsumowanie"})%>
+
+            <div id="mainContent">
+                <div id="podsumowanie_str1">
+                    <div id="list">
+                        <div>
+                            <h2 class="headerName"><label for="miejsce_z">Miejsce zbiórki</label></h2>
+                            <input type="text" id="miejsce_pod" name="miejsceZbiorki" required title="Wprowadź miejsce zbiórki" value= <%=data.konMain.miejsceZbiorki%>>
+                        </div>
+
+                        <h2 class="headerName" style="float: left;"><label for="temat_z">Temat zbiórki</label></h2>
+                        <input type="text" id="temat_pod" name="tematZbiorki" required title="Wprowadź temat zbiórki" value= <%=data.konMain.tematZbiorki%>>
+                        <% let hasCelM = true;
+                            let hasCelF = true;
+                        if(data.konMain.celMetodyczny !== ""){ %>
+                        <h2 class="headerName"><label for="cel_m">Cel metodyczny</label></h2>
+                        <input type="text" id="cel_m_pod" name="celMetodyczny" title="Wprowadź cel metodyczny" value= <%=data.konMain.celMetodyczny%>>
+                        <%}else hasCelM = false%>
+                        <%if(data.konMain.celFabularny !== ""){ %>
+                        <h2 class="headerName"><label for="cel_f">Cel fabularny</label></h2>
+                        <input type="text" id="cel_f_pod" name="celFabularny" title="Wprowadź cel fabularny" value= <%=data.konMain.celFabularny%>>
+                        <%} else hasCelF = false%>
+
+                    </div>
                 </div>
-
-                <h2 class="headerName" style="float: left;"><label for="temat_z">Temat zbiórki</label></h2>
-                <input type="text" id="temat_pod" name="tematZbiorki" required title="Wprowadź temat zbiórki" value= <%=data.konMain.tematZbiorki%>>
-                <% let hasCelM = true;
-                    let hasCelF = true;
-                if(data.konMain.celMetodyczny !== ""){ %>
-                <h2 class="headerName"><label for="cel_m">Cel metodyczny</label></h2>
-                <input type="text" id="cel_m_pod" name="celMetodyczny" title="Wprowadź cel metodyczny" value= <%=data.konMain.celMetodyczny%>>
-                <%}else hasCelM = false%>
-                <%if(data.konMain.celFabularny !== ""){ %>
-                <h2 class="headerName"><label for="cel_f">Cel fabularny</label></h2>
-                <input type="text" id="cel_f_pod" name="celFabularny" title="Wprowadź cel fabularny" value= <%=data.konMain.celFabularny%>>
-                <%} else hasCelF = false%>
-                
+                <div id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <input id = "sub_pod" type = "button" name ="dalej_podsumowanie" value="Przejdź dalej">
+                </div>
             </div>
+            <!--MAINCONTENT END-->
         </div>
-        <div id="buttonSpan">
-            <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
-            <input id = "sub_pod" type = "button" name ="dalej_podsumowanie" value="Przejdź dalej">
-        </div>
-    </div>
-    <!--MAINCONTENT END-->
-</div>
 
-    <%- include('templates/footer')%>
+            <%- include('templates/footer')%>
 
-</body>
-<script src = "/scripts/redirect.js"></script>
-<script type="text/javascript">
-    document.getElementById('sub_pod').addEventListener("click", ()=>{
-        //zebranie danych
-        let celM = "brak";
-        let celF = "brak";
-        if(<%=hasCelM%>) podsumowanieCelM = document.getElementById('cel_m_pod');
-        if(<%=hasCelF%>) podsumowanieCelF = document.getElementById('cel_f_pod');
-        // utworzenie obiektu podsumowanie i zbieranie danych
-        let podsumowanie = {
-            czas: "<%= data.konMain.czas %>",
-            konspektMiejsce: "<%=data.konMain.miejsceZbiorki%>",
-            podsumowanieMiejsce: document.getElementById('miejsce_pod').value,
-            konspektTemat: "<%=data.konMain.tematZbiorki%>",
-            podsumowanieTemat: document.getElementById('temat_pod').value
-        }
-        if(<%=hasCelM%>){
-            podsumowanie.celMetodycznyKonspekt = "<%=data.konMain.celMetodyczny%>"
-            podsumowanie.celMetodycznyPodsumowanie = document.getElementById('cel_m_pod').value;
-        }else{
-            podsumowanie.celMetodycznyKonspekt = "brak"
-        }
-        if(<%=hasCelF%>){
-            podsumowanie.celFabularnyKonspekt = "<%=data.konMain.celFabularny%>"
-            podsumowanie.celFabularnyPodsumowanie = document.getElementById('cel_f_pod').value;
-        }else{
-            podsumowanie.celFabularnyKonspekt = "brak"
-        }
-        podsumowanie.tablicaElementow = []
-        // zapis pliku w odpowiedniej lokalizacji i przejście do podsumowania elementów
-        // na razie wypisanie gotowych danych
-        console.log(podsumowanie);
-        $.redirect("./dalej", {id: podsumowanie.czas, podsum: podsumowanie});
+    </body>
+    <script src = "/scripts/redirect.js"></script>
+    <script type="text/javascript">
+        document.getElementById('sub_pod').addEventListener("click", ()=>{
+            //zebranie danych
+            let celM = "brak";
+            let celF = "brak";
+            if(<%=hasCelM%>) podsumowanieCelM = document.getElementById('cel_m_pod');
+            if(<%=hasCelF%>) podsumowanieCelF = document.getElementById('cel_f_pod');
+            // utworzenie obiektu podsumowanie i zbieranie danych
+            let podsumowanie = {
+                czas: "<%= data.konMain.czas %>",
+                konspektMiejsce: "<%=data.konMain.miejsceZbiorki%>",
+                podsumowanieMiejsce: document.getElementById('miejsce_pod').value,
+                konspektTemat: "<%=data.konMain.tematZbiorki%>",
+                podsumowanieTemat: document.getElementById('temat_pod').value
+            }
+            if(<%=hasCelM%>){
+                podsumowanie.celMetodycznyKonspekt = "<%=data.konMain.celMetodyczny%>"
+                podsumowanie.celMetodycznyPodsumowanie = document.getElementById('cel_m_pod').value;
+            }else{
+                podsumowanie.celMetodycznyKonspekt = "brak"
+            }
+            if(<%=hasCelF%>){
+                podsumowanie.celFabularnyKonspekt = "<%=data.konMain.celFabularny%>"
+                podsumowanie.celFabularnyPodsumowanie = document.getElementById('cel_f_pod').value;
+            }else{
+                podsumowanie.celFabularnyKonspekt = "brak"
+            }
+            podsumowanie.tablicaElementow = []
+            // zapis pliku w odpowiedniej lokalizacji i przejście do podsumowania elementów
+            // na razie wypisanie gotowych danych
+            console.log(podsumowanie);
+            $.redirect("./dalej", {id: podsumowanie.czas, podsum: podsumowanie});
 
-    });
-</script>
-<script src="/scripts/konspektLista.js"></script>
-<script src="/scripts/main.js"></script>
+        });
+    </script>
+    <script src="/scripts/konspektLista.js"></script>
+    <script src="/scripts/main.js"></script>
 </htmL>

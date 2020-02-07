@@ -12,6 +12,11 @@ function redirect(url_){
     window.location.href = url_
 }
 
+function darken(id) {
+    let mask = document.getElementById(id);
+    mask.classList.add('dark_mask');
+}
+
 function pop(id){
     let popup = document.getElementById(id);
     popup.classList.toggle("show");

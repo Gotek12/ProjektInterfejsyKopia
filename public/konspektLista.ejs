@@ -1,50 +1,55 @@
 <!DOCTYPE html>
 <htmL>
-<head>
-    <meta charset="utf-8">
-    <title>Przeglądaj konspekty</title>
-    <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
-    <link rel = "stylesheet" href = "styles/main.css">
-    <link rel = "stylesheet" href = "styles/konspekt_elementy.css" >
-    <script src = "scripts/konspektValidation.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <style>
-        .elementImg > img {
-            width: 20px;
-        }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>Przeglądaj konspekty</title>
+        <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "styles/main.css">
+        <link rel = "stylesheet" href = "styles/konspekt_elementy.css" >
+        <script src = "scripts/konspektValidation.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <style>
+            .elementImg > img {
+                width: 20px;
+            }
+        </style>
+    </head>
+    <body>
 
-<%- include('templates/nav')%>
+        <%- include('templates/nav')%>
 
-<div id = "mainCenter">
-    <%- include('templates/header',{'name': "Przeglądaj konspekty"})%>
-    <div id="mainContent">
-        <div id="elementsList">
-            <div id="list">
-<!--                <div class = "listElement" style="display: flex;" >-->
-<!--                    <span class="elementSpanName">Nazwa konspektu: Bla bla</span>-->
-<!--                    <span class="elementSpan ">Data: 11.11.2020</span>-->
-<!--                </div>-->
-
-                <%for(let el of data.tab){ %>
-                <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
-                    <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
-                    <span class="elementSpan">Data: <%=el.czas %></span>
-                    <span class = "elementImg">
-                        <span class="gen" id = "usun_k" onclick="delete_file('/konspektLista', '<%= el.czas %>')"><img alt = "usun konspekt" src = "images/kosz/1x/baseline_delete_white_18dp.png"> Usuń</span>
-                        <span class = "gen" id = "podglad" ><img alt = "podgląd pdf" src = "images/lupka.png"> Podgląd pdf</span>
-                    </span>
+        <div id = "mainCenter">
+            <%- include('templates/header',{'name': "Przeglądaj konspekty"})%>
+            <div id="mainContent">
+                <div id="elementsList">
+                    <div id="list">
+                        <%for(let el of data.tab){ %>
+                        <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
+                            <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
+                            <span class="elementSpan">Data: <%=el.czas %></span>
+                            <span class = "elementImg">
+                                <span style="padding-left: 20px;"></span>
+                                <span class = "gen" id = "edytuj_k" ><img alt = "edytuj konspekt" src = "images/podsumowanie.png"> Edytuj</span>
+                                <span style="padding-left: 20px;"></span>
+                                <span class="gen" id = "usun_k" onclick="delete_file('/konspektLista', '<%= el.czas %>')"><img alt = "usun konspekt" src = "images/kosz/1x/baseline_delete_white_18dp.png"> Usuń</span>
+                                <span style="padding-left: 20px;"></span>
+                                <span class = "gen" id = "podglad" ><img alt = "podgląd pdf" src = "images/lupka.png"> Podgląd pdf</span>
+                            </span>
+                        </div>
+                       <%}%>
+                    </div>
                 </div>
-               <%}%>
+
+                <span id="buttonSpan">
+                    <input type="button" name="powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <input type="button" name="make_new" value="Dodaj konspekt" onclick="window.location.href = '/konspektDodaj'">
+                </span>
             </div>
+            <!--MAINCONTENT END-->
         </div>
-    </div>
-    <!--MAINCONTENT END-->
-</div>
-    <%- include('templates/footer')%>
-    <script src="scripts/deleter.js"></script>
-</body>
-<script src="scripts/konspektLista.js"></script>
+        <%- include('templates/footer')%>
+        <script src="scripts/deleter.js"></script>
+    </body>
+    <script src="scripts/konspektLista.js"></script>
+    <script src="scripts/main.js"></script>
 </htmL>

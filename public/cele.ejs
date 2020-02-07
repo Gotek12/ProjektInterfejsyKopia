@@ -2,40 +2,42 @@
 <htmL>
     <head>
         <meta charset="utf-8">
-        <title>Dodaj konspekt</title>
+        <title>Lista celi</title>
         <link rel = "stylesheet" href = "styles/normalize.css"><!--!! required !!-->
         <link rel = "stylesheet" href = "styles/main.css">
         <link rel = "stylesheet" href = "styles/konspekt_elementy.css" >
         <script src = "scripts/konspektValidation.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <style>
+            .elementImg > img {
+                width: 20px;
+            }
+        </style>
     </head>
     <body>
 
         <%- include('templates/nav')%>
 
         <div id = "mainCenter">
-
-            <%- include('templates/header',{'name': "Wybierz konspekt do edycji"})%>
-
+            <%- include('templates/header',{'name': "Lista celi"})%>
             <div id="mainContent">
                 <div id="elementsList">
                     <div id="list">
-                        <%for(let el of data.tab){ %>
+                        <% if(data.length !== 0){%>
+                        <%for(let el of data.cele){ %>
                         <div class="listElement" style="display: flex;" id = "<%= el.czas %>">
-                            <span class="elementSpanName">Temat zbiórki: <%=el.temat%> </span>
-                            <span class="elementSpan">Data: <%=el.czas %></span>
-                            <img src = "images/generuj/2xw/baseline_file_copy_white_48dp.png" alt = "generuj" style="width: 20px;">
+                            <span class="elementSpanName">Nazwa celu: <%=el.nazwaCelu%> </span>
+                            <span class="elementSpan">Metoda: <%=el.metodaCelu %></span>
+                            <span class="elementSpan">Uwagi: <%=el.uwagiCelu %></span>
                         </div>
+                       <%}%>
                        <%}%>
                     </div>
                 </div>
             </div>
             <!--MAINCONTENT END-->
         </div>
-
         <%- include('templates/footer')%>
-
     </body>
-    <script src="scripts/konspektLista.js"></script>
     <script src="scripts/main.js"></script>
 </htmL>

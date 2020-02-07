@@ -2,7 +2,7 @@ window.onclick = function(e) {
     let id = 0;
     let el = e.target;
     if(el.className === "gen"){
-        if(el.parentElement.parentElement.className == "listElement"){
+        if(el.parentElement.parentElement.className === "listElement"){
             id = el.parentElement.parentElement.id;
         }else{  
             id = el.parentElement.id;
@@ -31,11 +31,17 @@ window.onclick = function(e) {
         }
 
     }
-}
+};
 
 function dodajPodsumowanie(id) {
     //$.post('./podsumowanie'+'/'+id );
     window.location.href = 'podsumowanie/' + id;
+}
+
+function dodajOcenyIndywidualne(id){
+    console.log(id);
+    // $.post('./oceny_indywidualne', {id: id});
+    window.location.href = 'oceny_indywidualne/?data='+ id;
 }
 
 function edytujKonspekt(id){

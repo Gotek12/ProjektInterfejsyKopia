@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<htmL>
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj podsumowanie</title>
+        <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "/styles/main.css">
+        <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
+        <script src = "/scripts/konspektValidation.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
+
+        <%- include('templates/nav')%>
+
+        <div id = "mainCenter">
+
+            <%- include('templates/header',{'name' : "Ocena indywidalna"})%>
+
+            <div id="mainContent">
+                <div id="elementSummary">
+                    <div class="elementSummaryLine">
+                        <p id="elementName">Imię i nazwisko: <%=data%></p>
+
+                    </div>
+                    <div class="elementSummaryLine">
+                        <p class="long">Ocena:</p>
+                    </div>
+                    <div class="elementSummaryLine">
+                        <textarea name="ocena_text" rows="8" cols="120" required></textarea>
+                    </div>
+                </div>
+                 <div id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <%if (lastElement){%>
+                    <input type = "button" name ="zatwierdz" value="Przejdź dalej" id = "saveOcenyIndywidualne">
+                    <%}else{%>
+                    <input type = "button" name ="zatwierdz" value="Następna osoba" id = "nextPerson">
+                    <%}%>
+                </div>
+            </div>
+            <!--MAINCONTENT END-->
+        </div>
+
+            <%- include('templates/footer')%>
+
+    </body>
+    <script src="/scripts/konspektLista.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src = "/scripts/redirect.js"></script>
+    <script type="text/javascript">
+        function add() {
+            currentPerson = {
+                imie: "<%=data%>",
+            }
+            if(document.getElementsByName('ocena_text')[0].value !== "") currentPerson.ocena = document.getElementsByName('ocena_text')[0].value;
+            else currentPerson.ocena = "Brak oceny"
+            return currentPerson;
+        }
+        if(<%=lastElement%>){
+            document.getElementById('saveOcenyIndywidualne').addEventListener("click", ()=>{
+                let current = add();
+                $.redirect("./zapisz_oceny", {element: current});
+            });
+        }
+        else{
+            document.getElementById('nextPerson').addEventListener("click", ()=>{
+                let current = add();
+                $.redirect("./nastepna_osoba", {element: current});
+            });
+        }
+    </script>
+</htmL>

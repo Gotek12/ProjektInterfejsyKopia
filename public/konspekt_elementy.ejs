@@ -1,90 +1,92 @@
 <!DOCTYPE html>
 <htmL>
 
-<head>
-    <meta charset="utf-8">
-    <title>Nowy konspekt</title>
-    <link rel="stylesheet" href="styles/normalize.css">
-    <!--!! required !!-->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/konspekt_elementy.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <title>Nowy konspekt</title>
+        <link rel="stylesheet" href="styles/normalize.css">
+        <!--!! required !!-->
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/konspekt_elementy.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
 
-<body>
+    <body>
 
-   <%- include('templates/nav')%>
+       <%- include('templates/nav')%>
 
-    <div id="mainCenter">
-       <%- include('templates/header', {'name': "Nowy konspekt"})%>
+        <div id="mainCenter">
+           <%- include('templates/header', {'name': "Nowy konspekt"})%>
 
-        <!-- Główne zmiany -->
-        <!-- Główne zmiany -->
-        <div id="mainContent">
-            
-            <div id="elementsList">
-                <div id="list"></div>
-                <input type="button" id='dodaj_element' name="dodaj_element_konspektu" value="Dodaj element..."
-                    onclick="showAddElement()">
-                <div id='hidable'>
-                    <!-- <div id='hidableGrid'> -->
-                    <div class="hidableLine">
-                        <p class="long">Nazwa elementu</p>
-                        <input type="text" name="nazwa_elementu" minlength = "1" id = "nazwaRequired" required >
-                    </div>
-                    <div class="hidableLine">
-                        <datalist id="time_des">
-                            <option value="sekund">
-                            <option value="sekundy">
-                            <option value="minut">
-                            <option value="minuty">
-                            <option value="godzin">
-                            <option value="godziny">
-                        </datalist>
-                        <p class="short">Forma</p>
-                        <input type="text" name="forma" required>
-                        <p class="short">Przewidywany czas</p>
-                        <input type="number" name="przewidywany_czas" min="0" required>
-                        <input list="time_des" placeholder="Format czasu" name="przewidywany_czas_text" required>
-                        <p class="short">Cel śródroczny</p>
-                        <input type="text" name="cel_srodroczny">
-                    </div>
-                    <div class="hidableLine">
-                        <p class="long">Potrzebne do elementu</p>
-                        <textarea name="potrzebne_do_elementu" rows="3"></textarea>
-                    </div>
-                    <div class="hidableLine">
-                        <div onclick="eraseElement()" class="addButtons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-                                <path
-                                    d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
-                                    fill="#071A3F" />
-                                <path d="M0 0h24v24H0z" fill="none" /></svg>
+            <!-- Główne zmiany -->
+            <!-- Główne zmiany -->
+            <div id="mainContent">
+
+                <div id="elementsList">
+                    <div id="list"></div>
+                    <input type="button" id='dodaj_element' name="dodaj_element_konspektu" value="Dodaj element..."
+                        onclick="showAddElement()">
+                    <div id='hidable'>
+                        <!-- <div id='hidableGrid'> -->
+                        <div class="hidableLine">
+                            <label style="min-width: 5%; margin-right: 2.5%;">Nazwa elementu</label>
+                            <input type="text" name="nazwa_elementu" minlength = "1" id = "nazwaRequired" required >
                         </div>
-                        <div onclick="addElement()" class="addButtons">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
-                                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#071A3F" />
-                                <path d="M0 0h24v24H0z" fill="none" /></svg>
+                        <div class="hidableLine" style="display: flex; flex-flow: row wrap;">
+                            <datalist id="time_des">
+                                <option value="sekund">
+                                <option value="sekundy">
+                                <option value="minut">
+                                <option value="minuty">
+                                <option value="godzin">
+                                <option value="godziny">
+                            </datalist>
+                            <label>Forma</label>
+                            <textarea name="forma" rows="3" required></textarea>
+                            <span class="konspekt_element_span">
+                                <label style="min-width: 20%;">Przewidywany czas</label>
+                                <input type="number" name="przewidywany_czas" min="1" pattern="[1-9]{1}[0-9]*" required>
+                                <input list="time_des" placeholder="Format czasu" name="przewidywany_czas_text" required>
+                                <label style="min-width: 20%">Cel śródroczny</label>
+                                <input type="text" name="cel_srodroczny">
+                            </span>
+                        </div>
+                        <div class="hidableLine">
+                            <label class="long">Potrzebne do elementu</label>
+                            <textarea name="potrzebne_do_elementu" rows="3"></textarea>
+                        </div>
+                        <div class="hidableLine">
+                            <div onclick="eraseElement()" class="addButtons">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                                    <path
+                                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                        fill="#071A3F" />
+                                    <path d="M0 0h24v24H0z" fill="none" /></svg>
+                            </div>
+                            <div onclick="addElement()" class="addButtons">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#071A3F" />
+                                    <path d="M0 0h24v24H0z" fill="none" /></svg>
+                            </div>
+
                         </div>
 
+                        <!-- </div> -->
                     </div>
-
-                    <!-- </div> -->
+                </div>
+                <div id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/konspektDodaj'">
+                    <input type = "button" name ="zatwierdz" value="Zatwierdź konspekt" id = "letsGo">
                 </div>
             </div>
-            <div id="buttonSpan">
-                <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/konspektDodaj'">
-                <input type = "button" name ="zatwierdz" value="Zatwierdź konspekt" id = "letsGo">
-            </div>
+            <!--MAINCONTENT END-->
         </div>
-        <!--MAINCONTENT END-->
-    </div>
 
-    <%- include('templates/footer')%>
+        <%- include('templates/footer')%>
 
-</body>
-<script src="scripts/main.js"></script>
-<script src="scripts/konspekt_elementy.js"></script>
-<script src="scripts/konspektFunctions.js"></script>
+    </body>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/konspekt_elementy.js"></script>
+    <script src="scripts/konspektFunctions.js"></script>
 
 </htmL>

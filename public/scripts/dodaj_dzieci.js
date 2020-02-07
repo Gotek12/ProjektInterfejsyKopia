@@ -52,6 +52,7 @@ function add_new(){
         $.post('/sprObecnosc', {"new_child": obj});
 
         clear_ns();
+        window.alert("Dodano " + obj.name + " " + obj.surrname + " do listy obecności.");
         window.location.href = '/sprObecnosc';
     }
     else {
@@ -71,6 +72,7 @@ function delete_child(){
 
         $.post('/sprObecnosc', {"to_del": obj});
 
+        window.alert("Wypisano " + obj.name + " " + obj.surrname + " z listy obecności.");
         clear_ns();
         window.location.href = '/sprObecnosc';
     }

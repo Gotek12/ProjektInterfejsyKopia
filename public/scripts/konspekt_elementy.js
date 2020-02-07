@@ -24,6 +24,7 @@ module.exports = {
             fs.mkdirSync("./data/konspekty");
             fs.mkdirSync("./data/podsumowania");
             fs.mkdirSync("./data/obecnosci");
+            fs.mkdirSync("./data/cele");
         } else {
             if (!fs.existsSync('./data/konspekty')){
                 fs.mkdirSync("./data/konspekty");
@@ -33,7 +34,9 @@ module.exports = {
             }
             if (!fs.existsSync('./data/obecnosci')){
                 fs.mkdirSync("./data/obecnosci");
-
+            }
+            if (!fs.existsSync('./data/cele')){
+                fs.mkdirSync("./data/cele");
             }
         }
 
@@ -43,6 +46,10 @@ module.exports = {
 
         if (!fs.existsSync('./lista_obecnosci')) {
             fs.mkdirSync("./lista_obecnosci");
+        }
+
+        if (!fs.existsSync('./oceny_indywidualne')) {
+            fs.mkdirSync("./oceny_indywidualne");
         }
     },
 
@@ -95,5 +102,64 @@ module.exports = {
         }else{
             console.log("brak danych");
         }
+    },
+
+    saveOcenyIndywidualne: (fs, oceny_ind) => {
+        if(oceny_ind == null || typeof oceny_ind === "undefinied"){
+            console.log("Brak podsumowania do dodania");
+        }
+        if (!fs.existsSync('./oceny_indywidualne/oceny-' + oceny_ind.data + '.json')){
+            fs.writeFile('./oceny_indywidualne/oceny-' + oceny_ind.data + '.json', JSON.stringify(oceny_ind), 'utf-8', function(err) {
+                if (err){
+                    console.log("Problem z zapisem w saveOcenyIndywidualne");
+                    throw err;
+                }
+            });
+        }else{
+            console.log("brak danych");
+        }
+    },
+
+    saveCele: (fs, objC) => {
+        var obj = {
+            cele: []
+        };
+
+        //if empty
+        if(!fs.existsSync('./data/cele/cele.json')){
+            objC.forEach(e => {
+                obj.cele.push({
+                    nazwaCelu: e.nazwaCelu,
+                    metodaCelu: e.metodaCelu,
+                    uwagiCelu:  e.uwagiCelu
+                });
+            });
+            var json = JSON.stringify(obj);
+            fs.writeFile('./data/cele/cele.json', json, (err) => {
+                if (err) throw err;
+                console.log('The file has been saved!');
+            });
+
+        }else{
+            fs.readFile('./data/cele/cele.json', 'utf8', (err, data) => {
+                if (err){
+                    console.error(err);
+                } else {
+                obj = JSON.parse(data);
+                objC.forEach(e => {
+                    obj.cele.push({
+                        nazwaCelu: e.nazwaCelu,
+                        metodaCelu: e.metodaCelu,
+                        uwagiCelu:  e.uwagiCelu
+                    });
+                });
+                json = JSON.stringify(obj); 
+                fs.writeFile('./data/cele/cele.json', json, (err) => {
+                    if (err) throw err;
+                    console.log('The file has been saved!');
+                });
+            }});
+        }
+        
     }
 };

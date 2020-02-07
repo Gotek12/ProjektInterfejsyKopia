@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<htmL>
+    
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj cele całoroczne</title>
+        <link rel="stylesheet" href="styles/normalize.css">
+        <!--!! required !!-->
+        <link rel="stylesheet" href="styles/main.css">
+        <link rel="stylesheet" href="styles/konspekt_elementy.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+
+        <%- include('templates/nav')%>
+
+        <div id="mainCenter">
+            <%- include('templates/header', {'name': "Dodaj cele całoroczne"})%>
+
+            <!-- Główne zmiany -->
+            <div id="mainContent">
+
+                <div id="elementsList">
+                    <div id="list"></div>
+                    <input type="button" id='dodaj_element' name="dodaj_element_celu" value="Dodaj cel..."
+                           onclick="showAddElement()">
+                    <div id='hidable'>
+                        <div>
+                            <label style="margin-left: 1.5%;" id="n_celu" for="nazwa_celu">Nazwa celu:
+                                <input id="nazwa_celu" type="text" name="nazwa_c" title="Podaj nazwę celu" minlength="1" required>
+                            </label>
+                        </div>
+
+                        <div id="cele_text_area">
+                            <label style="margin-left: 15%; margin-top: 12.5%" id="m_celu" for="metody_c">Metody realizacji:</label>
+                            <textarea id="metody_c" name="cel_metoda" title="Podaj metody wykonania celu celu" minlength="1" required rows="6"></textarea>
+                        </div>
+
+                        <div id="cele_text_area">
+                            <label style="margin-left: 15%; margin-top: 12.5%" id="u_celu" for="uwagi_c">Uwagi:</label>
+                            <textarea id="uwagi_c" name="cel_uwagi" title="Podaj uwagi do celu" minlength="1" required rows="6"></textarea>
+                        </div>
+
+                        <div class="hidableLine">
+                            <!-- usuń aktualny cel -->
+                            <div onclick="eraseElement()" class="addButtons">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                                    <path
+                                            d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                            fill="#071A3F" />
+                                    <path d="M0 0h24v24H0z" fill="none" /></svg>
+                            </div>
+
+                            <!-- Dodaj nowy cel -->
+                            <div onclick="addElement()" class="addButtons">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+                                    <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" fill="#071A3F" />
+                                    <path d="M0 0h24v24H0z" fill="none" /></svg>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <input type = "button" name ="zatwierdz" value="Dodaj cele" id="addTargets">
+                </div>
+            </div>
+            <!--MAINCONTENT END-->
+        </div>
+
+        <%- include('templates/footer')%>
+
+    </body>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/addCele.js"></script>
+</htmL>

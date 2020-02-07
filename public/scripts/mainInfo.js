@@ -1,5 +1,17 @@
 module.exports = {
 
+    readCele: (fs) => {
+        var json = [];
+        if(!fs.existsSync("./data/cele/cele.json")){
+            
+        }else{
+            let obj = fs.readFileSync("./data/cele/cele.json");
+            json = JSON.parse(obj);
+        }
+
+        return json;
+    },
+    
     saveObecnosci: (fs, dzieci, acData) => {
         if (!fs.existsSync('./data/obecnosci/' + acData + '.json')) {
             let obecnosci = {
@@ -202,7 +214,6 @@ module.exports = {
     viewSummaries: (fs) => {
         var tabDir = [];
         fs.readdirSync("./data/podsumowania").forEach(file => {
-
             if(file.split('.').pop() === "json"){
                 tabDir.push(file);
             }
@@ -281,5 +292,73 @@ module.exports = {
         } else {
             console.error("Błąd!");
         }
+    },
+
+    viewObecnosci: (fs) => {
+        var tabDir = [];
+        fs.readdirSync("./data/obecnosci").forEach(file => {
+
+            if(file.split('.').pop() === "json"){
+                tabDir.push(file);
+            }
+        });
+         //sortowanie po dacie
+        // tabDir.sort(function(a, b) {
+        //     a = new Date(
+        //         a.slice(0, 4),
+        //         a.slice(5, 7),
+        //         a.slice(8, 10)
+        //     );
+        //     b = new Date(
+        //         a.slice(0, 4),
+        //         a.slice(5, 7),
+        //         a.slice(8, 10)
+        //     );
+        //     return a > b ? -1 : a < b ? 1 : 0;
+        // });
+        console.info(JSON.stringify(tabDir));
+        tabDir.sort();
+        console.info(JSON.stringify(tabDir));
+        
+
+        const elToDispay = 3;
+        let t = 0;
+        let all=[];
+        for(let i = 0; i < tabDir.length; i++){
+
+            all.push(tabDir[i]);
+        }
+
+
+        const obecnosci = {
+            tab: []
+        };
+
+        //czytam dane z wybranych plików
+        all.forEach((e) => {
+            try {
+                var re = fs.readFileSync('./data/obecnosci/'+ e);
+                var dane = JSON.parse(re);
+                // var cza = dane.konMain.czas;
+                // var temat = dane.konMain.tematZbiorki;
+                obecnosci.tab.push({
+                    data: e.slice(8,10)+"."+e.slice(5,7)+"."+e.slice(0,4),
+                    id: e.slice(0, 10)
+                    // temat : temat
+                });
+            }catch(err){
+                console.error(err);
+                throw err;
+            }
+
+        });
+        return obecnosci;
+    },
+
+    getObecnosci: (fs,id)=>{
+        let data = id;
+        let file = JSON.parse(fs.readFileSync('./data/obecnosci/' +data +'.json'));
+        console.log("getting obecnosci: " + data);
+        return file;
     }
 };

@@ -1,106 +1,106 @@
 <!DOCTYPE html>
 <htmL>
-<head>
-    <meta charset="utf-8">
-    <title>Dodaj podsumowanie</title>
-    <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
-    <link rel = "stylesheet" href = "/styles/main.css">
-    <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
-    <script src = "/scripts/konspektValidation.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj podsumowanie</title>
+        <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "/styles/main.css">
+        <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
+        <script src = "/scripts/konspektValidation.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
 
-<%- include('templates/nav')%>
+        <%- include('templates/nav')%>
 
-<div id = "mainCenter">
+        <div id = "mainCenter">
 
-    <%- include('templates/header',{'name' : "Podsumowanie elementów"})%>
+            <%- include('templates/header',{'name' : "Podsumowanie elementów"})%>
 
-    <div id="mainContent">
-        <div id="elementSummary">
-            <div class="elementSummaryLine">
-                <p id="elementName">Nazwa elementu: <%=element.nazwa_elementu%></p>
+            <div id="mainContent">
+                <div id="elementSummary">
+                    <div class="elementSummaryLine">
+                        <p id="elementName">Nazwa elementu: <%=element.nazwa_elementu%></p>
+                    </div>
+                    <div class="elementSummaryLine">
+                        <datalist id="time_des">
+                            <option value="sekund">
+                            <option value="sekundy">
+                            <option value="minut">
+                            <option value="minuty">
+                            <option value="godzin">
+                            <option value="godziny">
+                        </datalist>
+                        <p class="short">Forma</p>
+                        <input type="text" name="forma_pod" id='forma' required value=<%=element.forma%>>
+                        <p class="short">Czas elementu</p>
+                        <input type="number" name="czas_elementu" min="0" required value=<%=element.przewidywany_czas%>>
+                        <input list="time_des" placeholder="Format czasu" name="czas_elementu_text" required value=<%=element.przewidywany_czas_text%>>
+                    </div>
+                    <%if(element.cel!==""){%>
+                    <div class="elementSummaryLine">
+                        <p class="long">Cel śródroczny: <%=element.cel%></p>
+                        <p>Realizacja:</p>
+                        <input type="checkbox" name="realizacja_celu">
+                    </div>
+                    <%}%>
+                    <div class="elementSummaryLine">
+                        <p class="long">Uwagi do elementu</p>
+                        <textarea name="uwagi_do_elementu" rows="7"></textarea>
+                    </div>
+                </div>
+                <div id="buttonSpan">
+                        <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                        <%if (lastElement){%>
+                        <input type = "button" name ="zatwierdz" value="Przejdź dalej" id = "saveElementsSummary">
+                        <%}else{%>
+                        <input type = "button" name ="zatwierdz" value="Następny element" id = "nextElem">
+                        <%}%>
+                    </div>
             </div>
-            <div class="elementSummaryLine">
-                <datalist id="time_des">
-                    <option value="sekund">
-                    <option value="sekundy">
-                    <option value="minut">
-                    <option value="minuty">
-                    <option value="godzin">
-                    <option value="godziny">
-                </datalist>
-                <p class="short">Forma</p>
-                <input type="text" name="forma_pod" id='forma' required value=<%=element.forma%>>
-                <p class="short">Czas elementu</p>
-                <input type="number" name="czas_elementu" min="0" required value=<%=element.przewidywany_czas%>>
-                <input list="time_des" placeholder="Format czasu" name="czas_elementu_text" required value=<%=element.przewidywany_czas_text%>>
-            </div>
-            <%if(element.cel!==""){%>
-            <div class="elementSummaryLine">
-                <p class="long">Cel śródroczny: <%=element.cel%></p>
-                <p>Realizacja:</p>
-                <input type="checkbox" name="realizacja_celu">
-            </div>
-            <%}%>
-            <div class="elementSummaryLine">
-                <p class="long">Uwagi do elementu</p>
-                <textarea name="uwagi_do_elementu" rows="7"></textarea>
-            </div>
+            <!--MAINCONTENT END-->
         </div>
-        <div id="buttonSpan">
-                <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
-                <%if (lastElement){%>
-                <input type = "button" name ="zatwierdz" value="Przejdź dalej" id = "saveElementsSummary">
-                <%}else{%>
-                <input type = "button" name ="zatwierdz" value="Następny element" id = "nextElem">
-                <%}%>
-            </div>
-    </div>
-    <!--MAINCONTENT END-->
-</div>
 
-    <%- include('templates/footer')%>
+            <%- include('templates/footer')%>
 
-</body>
-<script src="/scripts/konspektLista.js"></script>
-<script src="/scripts/main.js"></script>
-<script src = "/scripts/redirect.js"></script>
-<script type="text/javascript">
+    </body>
+    <script src="/scripts/konspektLista.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src = "/scripts/redirect.js"></script>
+    <script type="text/javascript">
 
-    function addCurrentToSummary() {
-        let currentElement = {
-            nazwa: "<%=element.nazwa_elementu%>",
-            formaKonspekt: "<%=element.forma%>",
-            formaPodsumowanie: document.getElementsByName('forma_pod')[0].value,
-            czasKonspekt: "<%=element.przewidywany_czas%>",
-            czasTextKonspekt: "<%=element.przewidywany_czas_text%>",
-            czasPodsumowanie: document.getElementsByName('czas_elementu')[0].value,
-            czasTextPodsumownaie: document.getElementsByName('czas_elementu_text')[0].value
+        function addCurrentToSummary() {
+            let currentElement = {
+                nazwa: "<%=element.nazwa_elementu%>",
+                formaKonspekt: "<%=element.forma%>",
+                formaPodsumowanie: document.getElementsByName('forma_pod')[0].value,
+                czasKonspekt: "<%=element.przewidywany_czas%>",
+                czasTextKonspekt: "<%=element.przewidywany_czas_text%>",
+                czasPodsumowanie: document.getElementsByName('czas_elementu')[0].value,
+                czasTextPodsumownaie: document.getElementsByName('czas_elementu_text')[0].value
+            }
+            if("<%=element.cel%>"!==""){
+                currentElement.cel = "<%=element.cel%>";
+                currentElement.realizacjaCelu = document.getElementsByName('realizacja_celu')[0].checked;
+            }
+            if(document.getElementsByName('uwagi_do_elementu')[0].value!="") currentElement.uwagi = document.getElementsByName('uwagi_do_elementu')[0].value;
+            else currentElement.uwagi = "Brak uwag"
+            // console.log(currentElement);
+            return currentElement;
         }
-        if("<%=element.cel%>"!==""){
-            currentElement.cel = "<%=element.cel%>";
-            currentElement.realizacjaCelu = document.getElementsByName('realizacja_celu')[0].checked;
-        }
-        if(document.getElementsByName('uwagi_do_elementu')[0].value!="") currentElement.uwagi = document.getElementsByName('uwagi_do_elementu')[0].value;
-        else currentElement.uwagi = "Brak uwag"
-        // console.log(currentElement);
-        return currentElement;
-    }
 
-    if(<%=lastElement%>){
-        document.getElementById('saveElementsSummary').addEventListener("click", ()=>{
-            let current = addCurrentToSummary();
-            $.redirect("./wnioski_ze_zbiorki", {elementsCounter :<%=elementsCounter%>, element: current, konspekt_id: "<%=konspekt_id%>"});
-            
-        });
-    }
-    else{
-        document.getElementById('nextElem').addEventListener("click", ()=>{
-            let current = addCurrentToSummary();
-            $.redirect("./nastepny_element", {elementsCounter :<%=elementsCounter%>, element: current, konspekt_id: "<%=konspekt_id%>"});
-        });
-    }
-</script>
+        if(<%=lastElement%>){
+            document.getElementById('saveElementsSummary').addEventListener("click", ()=>{
+                let current = addCurrentToSummary();
+                $.redirect("./wnioski_ze_zbiorki", {elementsCounter :<%=elementsCounter%>, element: current, konspekt_id: "<%=konspekt_id%>"});
+
+            });
+        }
+        else{
+            document.getElementById('nextElem').addEventListener("click", ()=>{
+                let current = addCurrentToSummary();
+                $.redirect("./nastepny_element", {elementsCounter :<%=elementsCounter%>, element: current, konspekt_id: "<%=konspekt_id%>"});
+            });
+        }
+    </script>
 </htmL>

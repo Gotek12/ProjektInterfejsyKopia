@@ -38,7 +38,11 @@
 
                         <h2 class="headerName"><label for="cel_f">Cel fabularny</label></h2>
                         <input type="text" id="cel_f" name="celFabularny" title="Wprowadź cel fabularny">
-                        <input id = "sub" type="submit" name="dalej_konspekt" value="Dalej   >" onclick="check_fill()">
+
+                        <span id="buttonSpan" style="margin-top: 7.5%;">
+                            <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                            <input id = "sub" type="submit" name="dalej_konspekt" value="Dalej   >" onclick="check_fill()">
+                        </span>
                     </form>
                 </div>
             </div><!--MAINCONTENT END-->

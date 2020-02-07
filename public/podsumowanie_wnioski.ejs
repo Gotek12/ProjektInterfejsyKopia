@@ -1,59 +1,59 @@
 <!DOCTYPE html>
 <htmL>
-<head>
-    <meta charset="utf-8">
-    <title>Dodaj podsumowanie</title>
-    <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
-    <link rel = "stylesheet" href = "/styles/main.css">
-    <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
-    <script src = "/scripts/konspektValidation.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-</head>
-<body>
+    <head>
+        <meta charset="utf-8">
+        <title>Dodaj podsumowanie</title>
+        <link rel = "stylesheet" href = "/styles/normalize.css"><!--!! required !!-->
+        <link rel = "stylesheet" href = "/styles/main.css">
+        <link rel = "stylesheet" href = "/styles/konspekt_elementy.css" >
+        <script src = "/scripts/konspektValidation.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    </head>
+    <body>
 
-<%- include('templates/nav')%>
+        <%- include('templates/nav')%>
 
-<div id = "mainCenter">
+        <div id = "mainCenter">
 
-    <%- include('templates/header',{'name' : "Wnioski ze zbiórki"})%>
+            <%- include('templates/header',{'name' : "Wnioski ze zbiórki"})%>
 
-    <div id="mainContent">
-        <div id="conclusionsSummary">
-            <div id = "plusMinusHeader">
-                <p class="header">Plusy zbiórki</p>
-                <p class="header">Minusy zbiórki</p>
+            <div id="mainContent">
+                <div id="conclusionsSummary">
+                    <div id = "plusMinusHeader">
+                        <p class="header">Plusy zbiórki</p>
+                        <p class="header">Minusy zbiórki</p>
+                    </div>
+                    <div id = "plusMinusSpan">
+                        <textarea name="plusy_zbiorki" rows="7"></textarea>
+                        <textarea name="minusy_zbiorki" rows="7"></textarea>
+                    </div>
+                    <p class="long">Wnioski</p>
+                    <textarea name="wnioski" rows="7"></textarea>
+                </div>
+                <div id="buttonSpan">
+                    <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
+                    <input type = "button" name ="zatwierdz" value="Zatwierdź podsumowanie" id = "saveSummary">
+                </div>
             </div>
-            <div id = "plusMinusSpan">
-                <textarea name="plusy_zbiorki" rows="7"></textarea>
-                <textarea name="minusy_zbiorki" rows="7"></textarea>
-            </div>
-            <p class="long">Wnioski</p>
-            <textarea name="wnioski" rows="7"></textarea>
+            <!--MAINCONTENT END-->
         </div>
-        <div id="buttonSpan">
-            <input type = "button" name = "powrot" value="Powrót" onclick="window.location.href = '/main'">
-            <input type = "button" name ="zatwierdz" value="Zatwierdź podsumowanie" id = "saveSummary">
-        </div>
-    </div>
-    <!--MAINCONTENT END-->
-</div>
 
-    <%- include('templates/footer')%>
+            <%- include('templates/footer')%>
 
-</body>
-<script src="/scripts/konspektLista.js"></script>
-<script src="/scripts/main.js"></script>
-<script src = "/scripts/redirect.js"></script>
-<script type="text/javascript">
-    document.getElementById('saveSummary').addEventListener("click", ()=>{
-        let conclusion = {
-            plusy: document.getElementsByName('plusy_zbiorki')[0].value,
-            minusy: document.getElementsByName('minusy_zbiorki')[0].value,
-            wnioski: document.getElementsByName('wnioski')[0].value
-        }
-        console.log(conclusion);
-        $.redirect("./zapisz_podsumowanie", {wnioski: conclusion, konspekt_id: "<%=konspekt_id%>"});
-        // window.location.href = '/main';
-    });
-</script>
+    </body>
+    <script src="/scripts/konspektLista.js"></script>
+    <script src="/scripts/main.js"></script>
+    <script src = "/scripts/redirect.js"></script>
+    <script type="text/javascript">
+        document.getElementById('saveSummary').addEventListener("click", ()=>{
+            let conclusion = {
+                plusy: document.getElementsByName('plusy_zbiorki')[0].value,
+                minusy: document.getElementsByName('minusy_zbiorki')[0].value,
+                wnioski: document.getElementsByName('wnioski')[0].value
+            }
+            console.log(conclusion);
+            $.redirect("./zapisz_podsumowanie", {wnioski: conclusion, konspekt_id: "<%=konspekt_id%>"});
+            // window.location.href = '/main';
+        });
+    </script>
 </htmL>
