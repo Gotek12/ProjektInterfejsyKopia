@@ -23,6 +23,9 @@ konspekt_el.addDirectories(fs);
 let tabDates = [];
 let tmp = null;
 let summary = null;
+let obecnosci = null;
+let obecnosci_count = null;
+let oceny_ind = null;
 
 function renderMain(res){
     let last;
@@ -182,6 +185,52 @@ app.get('/podsumowanieListaDownload/podglad/:id', (req, res) => {
     file.pipe(res);
 });
 
+app.all('/podsumowanieListaDownload', (req, res) => {
+    //console.info(req.body.id);
+    let summaries = mainInfo.viewSummaries(fs);
+    let id = req.body.id;
+    acId = req.body.idd;
+
+    if(typeof id !== 'undefined'){
+        let dane = mainInfo.redapdfPodsumowanie(fs, konspekt_el.sendDate(req.body.id));
+
+        ejs.renderFile('./public/templates/podsumowaniePdftemplate.ejs', {el: dane}, (err, data) => {
+            //console.info(dane);
+            if (err) {
+                throw err;
+            }else {
+                let options = { format: 'Letter' };
+                pdf.create(data, options).toFile("./pdf/podsumowanie-" + id + ".pdf", (err, data) => {
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        console.info("File created successfully for date: " + id);
+                    }
+                });
+            }
+        });
+
+    }else{
+        console.warn("Bledne id");
+    }
+    res.render('podsumowanieListaDownload', {data: summaries});
+});
+
+app.get('/podsumowanieListaDownload/download', (req, res) => {
+    var file = fs.createReadStream("./pdf/podsumowanie-" + acId + ".pdf");
+    var stat = fs.statSync("./pdf/podsumowanie-" + acId + ".pdf");
+    res.setHeader('Content-Length', stat.size);
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'attachment; filename=podsumowanie-' + acId + '.pdf');
+    file.pipe(res);
+});
+
+app.get('/podsumowanieListaDownload/podglad/:id', (req, res) => {
+    let id = req.params.id;
+    var file = fs.createReadStream("./pdf/podsumowanie-" + id + ".pdf");
+    file.pipe(res);
+});
+
 app.get('/del', (req, res) => {
     konspekt_el.delDir(fs);
     res.send("Del data firectory");
@@ -212,7 +261,7 @@ app.get('/konspektDodaj', (req, res) => {
     res.render('konspekt', {tabDates: tabDates});
 });
 
-app.all('/sprObecnosc',(req,res)=>{
+app.all('/sprObecnosc', (req, res) => {
     let get_new = req.body.new_child;
     let get_del = req.body.to_del;
     let was_del = false;
@@ -233,12 +282,8 @@ app.all('/sprObecnosc',(req,res)=>{
     res.render('obecnosci', {members: l_to_send, deletion_: was_del});
 });
 
-app.post('/sprObecnosc/save',(req,res)=>{
-    let arrayOfChilds = req.body.whoIsPresent;
-    let acData = req.body.acData;
-    //console.log(arrayOfChilds);
-    mainInfo.saveObecnosci(fs, arrayOfChilds, acData);
-
+app.get('/dodajCele', (req, res) => {
+    res.render('dodaj_cele');
 });
 
 app.post('/sprObecnosc/save',(req,res)=>{
@@ -301,6 +346,53 @@ app.post('/podsumowanie/zapisz_podsumowanie', (req, res) =>{
     summary = null;
 
     renderMain(res);
+});
+
+app.get('/wybierzObecnosci', (req, res) => {
+    let ob = mainInfo.viewObecnosci(fs);
+    res.render('wybierzObecnosci', {data: ob});
+});
+
+app.all('/oceny_indywidualne', (req, res) => {
+    oceny_ind = {
+        data: req.url.substr(26),
+        oceny: []
+    };
+    obecnosci = mainInfo.getObecnosci(fs, oceny_ind.data);
+    obecnosci_count = 0;
+
+    let lastElement = obecnosci.dzieciaczki.length === obecnosci_count + 1;
+    res.render('ocena_indywidualna', {data: obecnosci.dzieciaczki[obecnosci_count], lastElement: lastElement});
+});
+
+app.all('/oceny_indywidualne/nastepna_osoba', (req, res) =>{
+    oceny_ind.oceny[obecnosci_count] = req.body.element;
+    obecnosci_count++;
+
+    let lastElement = obecnosci.dzieciaczki.length === obecnosci_count + 1;
+    console.log("oceny_ind:",oceny_ind);
+    res.render('ocena_indywidualna', {data: obecnosci.dzieciaczki[obecnosci_count], lastElement: lastElement});
+});
+
+app.all('/oceny_indywidualne/zapisz_oceny', (req, res) =>{
+    oceny_ind.oceny[obecnosci_count] = req.body.element;
+    console.log("oceny_ind:",oceny_ind);
+    konspekt_el.saveOcenyIndywidualne(fs, oceny_ind);
+    obecnosci = null;
+    obecnosci_count = 0;
+    oceny_ind = null;
+    renderMain(res);
+});
+
+app.post('/zapisz_cel', (req, res) => {
+    konspekt_el.saveCele(fs, req.body.celeList);
+});
+
+app.all('/cele', (req, res) => {
+
+    let celeR = mainInfo.readCele(fs);
+    console.log(celeR);
+    res.render('cele', {data: celeR});
 });
 
 app.listen(PORT, () => console.info(`Listen at port ${ PORT } -> http://localhost:${ PORT }/`));
